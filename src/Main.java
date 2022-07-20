@@ -1,3 +1,4 @@
+import entrada.XMLaccessing;
 import estructuras.Circuito;
 import estructuras.GrafoMatriz;
 
@@ -5,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     public static void main(String[] args) {
-        GrafoMatriz otroGrafo = new GrafoMatriz(4);
+        /*GrafoMatriz otroGrafo = new GrafoMatriz(4);
         otroGrafo.nuevoArco("1","2",7);
         otroGrafo.nuevoArco("1","3",9);
         otroGrafo.nuevoArco("1","4",8);
@@ -25,13 +26,25 @@ public class Main {
         imprimirArreglo(camino2);
         Circuito inicial = new Circuito(camino);
         int menorCosto = busquedaLocal(inicial,otroGrafo);
-        System.out.println("el costo es de " + menorCosto);
+        System.out.println("el costo es de " + menorCosto);*/
+        System.out.println("accediendo a los datos xml");
+        XMLaccessing archivoDeEntrada = new XMLaccessing();
+        String [] resultado1 = archivoDeEntrada.adyacentesDe("1");
+        String[] resultado2 = archivoDeEntrada.pesosDe("1");
+        imprimirArreglo(resultado1);
+        imprimirArreglo(resultado2);
     }
 
     private static void imprimirArreglo(int[] arreglo) {
         System.out.println("se tiene el siguiente arreglo");
         for (int i =0;i <arreglo.length;i++){
             System.out.println(" "+ arreglo[i]+ ";");
+        }
+    }
+    private static void imprimirArreglo(String [] arreglo) {
+        System.out.println("se tiene el siguiente arreglo");
+        for (int i =0;i <arreglo.length;i++){
+            System.out.println( arreglo[i] + ";");
         }
     }
 
