@@ -10,36 +10,50 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 public class XMLtesting {
-    public static void main(String[] args) throws ParserConfigurationException, SAXException
-    {
+    public static void main(String[] args) {
+
         try {
-            File file = new File("burma14.xml");
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document document = db.parse(file);
-            document.getDocumentElement().normalize();
-            System.out.println("Root Element :" + document.getDocumentElement().getNodeName());
-            //NodeList nList = document.getElementsByTagName("employee");
-            NodeList nList = document.getElementsByTagName("vertex");
-            System.out.println("----------------------------");
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);
-                System.out.println("\nCurrent Element :" + nNode.getNodeName());
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    //System.out.println("First Name : " + eElement.getElementsByTagName("firstname").item(0).getTextContent());
-                    System.out.println("Adyacentes : " + eElement.getElementsByTagName("edge").item(0).getTextContent() );
-                    for (int aristas=0; aristas < ((Element) nNode).getElementsByTagName("edge").getLength() ;aristas++){
-                        //System.out.println("pesa la arista "+eElement.getAttribute("cost").startsWith("cost="));
-                        System.out.println("pesa la arista "+eElement.getPrefix());
+            // Creo una instancia de DocumentBuilderFactory
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            // Creo un documentBuilder
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            // Obtengo el documento, a partir del XML
+            Document documento = builder.parse(new File("burma14.xml"));
+
+            // Cojo todas las etiquetas coche del documento
+            NodeList listaVertices = documento.getElementsByTagName("vertex");
+
+            // Recorro las etiquetas
+            for (int i = 0; i < listaVertices.getLength(); i++) {
+                // Tomo el nodo actual
+                Node nodo = listaVertices.item(i);
+                // Compruebo si el nodo es un elemento
+                if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                    // Lo transformo a Element
+                    Element e = (Element) nodo;
+                    // Obtengo sus hijos
+                    NodeList hijos = e.getChildNodes();
+                    // Recorro sus hijos
+                    for (int j = 0; j < hijos.getLength(); j++) {
+                        // Obtengo al hijo actual
+                        Node hijo = hijos.item(j);
+                        // Compruebo si es un nodo
+                        if (hijo.getNodeType() == Node.ELEMENT_NODE) {
+                            // Muestro el contenido
+                            System.out.println("Propiedad: " + hijo.getNodeName()
+                                    + ", Valor: " + hijo.getTextContent());
+                            System.out.println("costo: ");
+                        }
+
                     }
-                    //System.out.println("Last Name : " + eElement.getElementsByTagName("lastname").item(0).getTextContent());
-                    //System.out.println("Salary : " + eElement.getElementsByTagName("salary").item(0).getTextContent());
+                    System.out.println("");
                 }
+
             }
-        }
-        catch(IOException e) {
-            System.out.println(e);
+
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
