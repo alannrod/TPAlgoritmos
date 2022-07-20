@@ -21,7 +21,7 @@ public class XMLtesting {
             // Obtengo el documento, a partir del XML
             Document documento = builder.parse(new File("burma14.xml"));
 
-            // Cojo todas las etiquetas coche del documento
+            // Tomo todas las etiquetas coche del documento
             NodeList listaVertices = documento.getElementsByTagName("vertex");
 
             // Recorro las etiquetas
@@ -43,11 +43,11 @@ public class XMLtesting {
                             // Muestro el contenido
                             System.out.println("Propiedad: " + hijo.getNodeName()
                                     + ", Valor: " + hijo.getTextContent());
-                            System.out.println("costo: ");
+                            System.out.println("costo: " + hijo.getAttributes().getNamedItem("cost"));
                         }
 
                     }
-                    System.out.println("");
+                    System.out.println("error el archivo no se pudo leer");
                 }
 
             }
