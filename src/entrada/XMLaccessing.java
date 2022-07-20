@@ -103,4 +103,12 @@ public class XMLaccessing {
         }
         return arregloFinal;
     }
+
+    public Map<String, String[]> getNodoAristas() {
+        return nodoAristas;
+    }
+
+    public Map<String, String[]> getNodoPesos() {
+        return nodoPesos;
+    }
 }

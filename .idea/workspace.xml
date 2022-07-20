@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="xml ya leido">
-      <change afterPath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" afterDir="false" />
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="separando las aristas y los pesos para crear un grafo a partir de un xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/estructuras/GrafoMatriz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/estructuras/GrafoMatriz.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +98,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658323651647</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="separando las aristas y los pesos para crear un grafo a partir de un xml">
+      <created>1658329578387</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1658329578387</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -115,7 +123,8 @@
     <MESSAGE value="proyecto basico" />
     <MESSAGE value="mejorando lectura xml" />
     <MESSAGE value="xml ya leido" />
-    <option name="LAST_COMMIT_MESSAGE" value="xml ya leido" />
+    <MESSAGE value="separando las aristas y los pesos para crear un grafo a partir de un xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="separando las aristas y los pesos para crear un grafo a partir de un xml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

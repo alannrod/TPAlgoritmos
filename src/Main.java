@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     public static void main(String[] args) {
-        /*GrafoMatriz otroGrafo = new GrafoMatriz(4);
+        GrafoMatriz otroGrafo = new GrafoMatriz(4);
         otroGrafo.nuevoArco("1","2",7);
         otroGrafo.nuevoArco("1","3",9);
         otroGrafo.nuevoArco("1","4",8);
@@ -24,15 +24,18 @@ public class Main {
         System.out.println("ahora aleatorio");
         int []camino2 = recorridoViajanteDeComercioAleatorio(otroGrafo);
         imprimirArreglo(camino2);
-        Circuito inicial = new Circuito(camino);
-        int menorCosto = busquedaLocal(inicial,otroGrafo);
-        System.out.println("el costo es de " + menorCosto);*/
+        //Circuito inicial = new Circuito(camino);
+        //int menorCosto = busquedaLocal(inicial,otroGrafo);
+        //System.out.println("el costo es de " + menorCosto);
         System.out.println("accediendo a los datos xml");
         XMLaccessing archivoDeEntrada = new XMLaccessing();
         String [] resultado1 = archivoDeEntrada.adyacentesDe("1");
         String[] resultado2 = archivoDeEntrada.pesosDe("1");
         imprimirArreglo(resultado1);
         imprimirArreglo(resultado2);
+        GrafoMatriz grafoxml = new GrafoMatriz(archivoDeEntrada);
+        int[] camino3 = recorridoViajanteDeComercio(grafoxml);
+        imprimirArreglo(camino3);
     }
 
     private static void imprimirArreglo(int[] arreglo) {
@@ -57,10 +60,10 @@ public class Main {
         inicializarEnFalso(yaLoRecorri);
         inicializarEnCero(caminoRecorrido);
         while (!yaLoRecorri[nodoActual]) {
-            int[] misAdyacentes = grafo.adyacentesDe(nodoActual);
+            float[] misAdyacentes = grafo.adyacentesDe(nodoActual);
             yaLoRecorri[nodoActual] = true;
             insertarEnSiguientePosicionLibre(caminoRecorrido, nodoActual);
-            int pesoMinimo = grafo.pesoMasAlto(nodoActual);
+            float pesoMinimo = grafo.pesoMasAlto(nodoActual);
             for (int indice = 0; indice < tamGrafo; indice++) {
                 if (!yaLoRecorri[indice]) {
                     if (misAdyacentes[indice] < pesoMinimo) {
@@ -91,10 +94,10 @@ public class Main {
         inicializarEnCero(candidatos);
         inicializarEnCero(noCandidatos);
         while ((nodoActual < tamGrafo)&&(!yaLoRecorri[nodoActual])) {
-            int[] misAdyacentes = grafo.adyacentesDe(nodoActual);
+            float[] misAdyacentes = grafo.adyacentesDe(nodoActual);
             yaLoRecorri[nodoActual] = true;
             insertarEnSiguientePosicionLibre(caminoRecorrido, nodoActual);
-            int pesoMinimo = grafo.pesoMasAlto(nodoActual);
+            float pesoMinimo = grafo.pesoMasAlto(nodoActual);
             for (int indice = 0; indice < tamGrafo; indice++) {
                 if (!yaLoRecorri[indice]) {
                     if (misAdyacentes[indice] < pesoMinimo) {
