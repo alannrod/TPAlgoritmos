@@ -1,6 +1,7 @@
 import entrada.XMLaccessing;
 import estructuras.Circuito;
 import estructuras.GrafoMatriz;
+import salida.ArchivoSalida;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,10 +27,10 @@ public class Main {
         int []camino2 = recorridoViajanteDeComercioAleatorio(otroGrafo);
         imprimirArreglo(camino2);
         Circuito inicial = new Circuito(camino);
-        int menorCosto = busquedaLocal(inicial,otroGrafo);
-        System.out.println("el costo es de " + menorCosto);
-        int otroCosto = busquedaLocalOptimizada(inicial,otroGrafo,3);
-        System.out.println("el nuevo costo es de "+otroCosto);
+        Circuito mejorCircuito = busquedaLocal(inicial,otroGrafo);
+        imprimirArreglo(mejorCircuito.camino);
+        Circuito otroCircuito = busquedaLocalOptimizada(inicial,otroGrafo,3);
+        imprimirArreglo(otroCircuito.camino);
         System.out.println("accediendo a los datos xml");
         XMLaccessing archivoDeEntrada = new XMLaccessing();
         String [] resultado1 = archivoDeEntrada.adyacentesDe("1");
@@ -39,19 +40,22 @@ public class Main {
         GrafoMatriz grafoxml = new GrafoMatriz(archivoDeEntrada);
         int[] camino3 = recorridoViajanteDeComercio(grafoxml);
         imprimirArreglo(camino3);
+        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","prueba.txt");
     }
 
     private static void imprimirArreglo(int[] arreglo) {
         System.out.println("se tiene el siguiente arreglo");
         for (int posicion :arreglo){
-            System.out.println(" "+ posicion + ";");
+            System.out.print(" "+ posicion + ";");
         }
+        System.out.println(" ");
     }
     private static void imprimirArreglo(String [] arreglo) {
         System.out.println("se tiene el siguiente arreglo");
         for (String palabra : arreglo){
-            System.out.println( palabra + ";");
+            System.out.print( palabra + ";");
         }
+        System.out.println(" ");
     }
 
     public static int[] recorridoViajanteDeComercio(GrafoMatriz grafo) {
@@ -121,7 +125,7 @@ public class Main {
         return caminoRecorrido;
     }
 
-    public static int busquedaLocal(Circuito caminoSugerido, GrafoMatriz grafo){
+    public static Circuito busquedaLocal(Circuito caminoSugerido, GrafoMatriz grafo){
         int tamanioArreglo = caminoSugerido.camino.length;
         caminoSugerido.costo = recorrerElGrafo(grafo,caminoSugerido.camino);
         Circuito mejorSolucion = caminoSugerido;
@@ -139,11 +143,11 @@ public class Main {
             return busquedaLocal(mejorSolucion,grafo);
         }
         else {
-            return caminoSugerido.costo;
+            return mejorSolucion;
         }
     }
 
-    public static int busquedaLocalOptimizada(Circuito caminoSugerido, GrafoMatriz grafo,int intentosMax) {
+    public static Circuito busquedaLocalOptimizada(Circuito caminoSugerido, GrafoMatriz grafo,int intentosMax) {
         Circuito mejorSolucion = caminoSugerido;
         if (intentosMax > 0) {
             int tamanioArreglo = caminoSugerido.camino.length;
@@ -162,8 +166,29 @@ public class Main {
                 return busquedaLocalOptimizada(mejorSolucion, grafo, intentosMax--);
             }
         }
-        return mejorSolucion.costo;
+        return mejorSolucion;
     }
+
+
+    public static void algoritmoGRASPconArchivoDeEntradaYDeSalida(String nombreDelArchivoEntrada, String nombreDelArchivoDeSalida) {
+        XMLaccessing miEntrada = new XMLaccessing(nombreDelArchivoEntrada);
+        GrafoMatriz miGrafo = new GrafoMatriz(miEntrada);
+        ArchivoSalida miSalida = new ArchivoSalida(nombreDelArchivoDeSalida);
+        miSalida.escribirEnElArchivo("Algoritmo GRASP aplicado al archivo "+ nombreDelArchivoEntrada);
+        int [] camino = recorridoViajanteDeComercio(miGrafo);
+        miSalida.escribirEnElArchivo("obtuvimos la siguiente solucion usando camino Hamiltoneano: "+Arrays.toString(camino));
+        Circuito elMejorHastaAhora = new Circuito(camino);
+        elMejorHastaAhora.costo = recorrerElGrafo(miGrafo,camino);
+        Circuito hayOtroMejor = busquedaLocal(elMejorHastaAhora,miGrafo);
+        while (hayOtroMejor != elMejorHastaAhora){
+            elMejorHastaAhora = hayOtroMejor;
+            miSalida.escribirEnElArchivo("Con busqueda local se presento esta nueva solucion: "+ Arrays.toString(elMejorHastaAhora.camino));
+            hayOtroMejor = busquedaLocal(elMejorHastaAhora,miGrafo);
+        }
+        miSalida.cerrarArchivo();
+    }
+
+
 
     private static boolean encontreMejorSolucion(Circuito caminoSugerido, Circuito vecino, GrafoMatriz grafo) {
         //compararemos ambos caminos
@@ -194,8 +219,10 @@ public class Main {
         String [] soloEnSugerido = filtrarNulos(estanSoloEnSugerido);
         String [] soloEnVecinos = filtrarNulos(estanSoloEnElVecino);
         for (int j =0; j < soloEnVecinos.length-1; j++){
-            costoMas += grafo.pesoDeArista(Integer.parseInt(soloEnVecinos[j]),Integer.parseInt(soloEnVecinos[j+1]));
-            costoMenos += grafo.pesoDeArista(Integer.parseInt(soloEnSugerido[j]),Integer.parseInt(soloEnSugerido[j+1]));
+            if (j%2 == 0) {//solo de a pares saco el costo (origen destino de arista)
+                costoMas += grafo.pesoDeArista(Integer.parseInt(soloEnVecinos[j]), Integer.parseInt(soloEnVecinos[j + 1]));
+                costoMenos += grafo.pesoDeArista(Integer.parseInt(soloEnSugerido[j]), Integer.parseInt(soloEnSugerido[j + 1]));
+            }
         }
         vecino.costo = caminoSugerido.costo - costoMenos + costoMas;
         return caminoSugerido.costo> vecino.costo;

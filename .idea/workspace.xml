@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="refinando algunos detalles">
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="probado los busquedaLocal1 y 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estructuras/GrafoMatriz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/estructuras/GrafoMatriz.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/salida/CrearArchivo2Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/salida/CrearArchivo2Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/salida/ArchivoSalida.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/salida/ArchivoSalida.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +157,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658412524160</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="probado los busquedaLocal1 y 2">
+      <created>1658416089545</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1658416089545</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -180,7 +186,8 @@
     <MESSAGE value="cambiando la matriz de adayacencia por float asi guardo el peso del xml, se puede crear un GrafoMatriz a partir de un archivo xml" />
     <MESSAGE value="generando archivo de texto, mejorando busqueda local" />
     <MESSAGE value="refinando algunos detalles" />
-    <option name="LAST_COMMIT_MESSAGE" value="refinando algunos detalles" />
+    <MESSAGE value="probado los busquedaLocal1 y 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="probado los busquedaLocal1 y 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

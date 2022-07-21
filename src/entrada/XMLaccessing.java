@@ -74,6 +74,65 @@ public class XMLaccessing {
         }
     }
 
+    public XMLaccessing(String nombreDelArchivoEntrada) {
+        try {
+            // Creo una instancia de DocumentBuilderFactory
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            // Creo un documentBuilder
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            // Obtengo el documento, a partir del XML
+            Document documento = builder.parse(new File(nombreDelArchivoEntrada));
+
+            // Tomo todas las etiquetas coche del documento
+            NodeList listaVertices = documento.getElementsByTagName("vertex");
+
+            // Recorro las etiquetas
+            for (int i = 0; i < listaVertices.getLength(); i++) {
+                // Tomo el nodo actual
+                Node nodo = listaVertices.item(i);
+
+                // Compruebo si el nodo es un elemento
+                if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                    // Lo transformo a Element
+                    Element e = (Element) nodo;
+                    // Obtengo sus hijos
+                    NodeList hijos = e.getChildNodes();
+                    //creo un arreglo para quedarme con los hijos y otro para las distancias
+                    String[] adyacentes = new String[hijos.getLength()];
+                    String[] costos = new String[hijos.getLength()];
+
+                    // Recorro sus hijos
+                    for (int j = 0; j < hijos.getLength(); j++) {
+                        // Obtengo al hijo actual
+                        Node hijo = hijos.item(j);
+                        // Compruebo si es un nodo
+                        if (hijo.getNodeType() == Node.ELEMENT_NODE) {
+                            //lo guardo al adyacente
+                            String contenidoAdyacentes =hijo.getTextContent();
+                            String contenidoPesos=(""+hijo.getAttributes().removeNamedItem("cost")).substring(6,9);
+                            if (!contenidoAdyacentes.contains("null")){
+                                adyacentes[j]=contenidoAdyacentes;costos[j]= contenidoPesos;}
+                            else {
+                                adyacentes[j]="vacio";costos[j]="vacio";
+                            }
+                        }
+
+
+
+                    }//guardo las aristas a mi diccionario
+                    this.nodoAristas.put(String.valueOf(i),filtrarNulos(adyacentes));
+                    this.nodoPesos.put(String.valueOf(i),filtrarNulos(costos));
+                }
+
+            }
+
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+
     public String[] adyacentesDe(String nodo){
         return this.nodoAristas.get(nodo);
     }
