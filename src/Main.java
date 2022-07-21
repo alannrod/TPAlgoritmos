@@ -25,9 +25,11 @@ public class Main {
         System.out.println("ahora aleatorio");
         int []camino2 = recorridoViajanteDeComercioAleatorio(otroGrafo);
         imprimirArreglo(camino2);
-        //Circuito inicial = new Circuito(camino);
-        //int menorCosto = busquedaLocal(inicial,otroGrafo);
-        //System.out.println("el costo es de " + menorCosto);
+        Circuito inicial = new Circuito(camino);
+        int menorCosto = busquedaLocal(inicial,otroGrafo);
+        System.out.println("el costo es de " + menorCosto);
+        int otroCosto = busquedaLocalOptimizada(inicial,otroGrafo,3);
+        System.out.println("el nuevo costo es de "+otroCosto);
         System.out.println("accediendo a los datos xml");
         XMLaccessing archivoDeEntrada = new XMLaccessing();
         String [] resultado1 = archivoDeEntrada.adyacentesDe("1");
@@ -209,7 +211,7 @@ public class Main {
 
     private static Circuito generarVecino(int indice, int tamanioArreglo, Circuito mejorSolucion) {
         int[] vecinoNuevo = mejorSolucion.camino; //le copio todos los valores
-        if (indice < tamanioArreglo+1){
+        if (indice < tamanioArreglo-1){
             //swappeo el del indice actual y su siguiente
             vecinoNuevo[indice]= mejorSolucion.camino[indice + 1];
             vecinoNuevo[indice +1] = mejorSolucion.camino[indice];
@@ -273,9 +275,7 @@ public class Main {
             }
         }
         arregloFinal = new String[tamTotal - cantidadDeNulos];
-        for (int k = 0; k < arregloFinal.length; k++) {
-            arregloFinal[k] = arregloTemporal[k];
-        }
+        System.arraycopy(arregloTemporal, 0, arregloFinal, 0, arregloFinal.length);
         return arregloFinal;
     }
 

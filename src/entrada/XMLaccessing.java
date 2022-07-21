@@ -65,7 +65,6 @@ public class XMLaccessing {
                     }//guardo las aristas a mi diccionario
                     this.nodoAristas.put(String.valueOf(i),filtrarNulos(adyacentes));
                     this.nodoPesos.put(String.valueOf(i),filtrarNulos(costos));
-                    System.out.println(" ");
                 }
 
             }
@@ -89,18 +88,16 @@ public class XMLaccessing {
         String[] arregloTemporal = new String[tamTotal];
         String[] arregloFinal;
         int indice = 0;
-        for (int j = 0; j < tamTotal; j++) {
-            if (arreglo[j]==null) {
+        for (String s : arreglo) {
+            if (s == null) {
                 cantidadDeNulos++;
             } else {
-                arregloTemporal[indice] = arreglo[j];
+                arregloTemporal[indice] = s;
                 indice++;
             }
         }
         arregloFinal = new String[tamTotal - cantidadDeNulos];
-        for (int k = 0; k < arregloFinal.length; k++) {
-            arregloFinal[k] = arregloTemporal[k];
-        }
+        System.arraycopy(arregloTemporal, 0, arregloFinal, 0, arregloFinal.length);
         return arregloFinal;
     }
 

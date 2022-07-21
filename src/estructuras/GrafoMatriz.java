@@ -4,7 +4,7 @@ import entrada.XMLaccessing;
 
 public class GrafoMatriz {
     float[][] adyacentes;
-    private int infinito = 9999999;//un valor muy alto
+    private final int infinito = 9999999;//un valor muy alto
     public GrafoMatriz(int dimension) {
         this.adyacentes=new float[dimension][dimension];
         this.ponerValorAltoAristaCiclica();
@@ -23,7 +23,7 @@ public class GrafoMatriz {
     private void llenarFila(int fila, String[] vertices, String[] peso) {
         for(int i = 0;i < vertices.length;i++){
             int posicion = Integer.parseInt(vertices[i]);
-            float costo = Float.valueOf(peso[i]);
+            float costo = Float.parseFloat(peso[i]);
             this.adyacentes[fila][posicion]=costo;
         }
     }
@@ -46,9 +46,7 @@ public class GrafoMatriz {
 
     public float[] adyacentesDe(int nodoActual) {
         float[] fila = new float[adyacentes.length];
-        for (int i = 0; i<adyacentes.length;i++){
-            fila[i]= this.adyacentes[nodoActual][i];
-        }
+        System.arraycopy(this.adyacentes[nodoActual], 0, fila, 0, adyacentes.length);
         return fila;
     }
 
@@ -58,7 +56,7 @@ public class GrafoMatriz {
     }
 
     public float pesoDeArista(int vertice, int otroVertice) {
-        float resultado = this.infinito;
+        float resultado = 0;
         if ((vertice < this.numeroDeVertices())&&(otroVertice<this.numeroDeVertices())){
             resultado = this.adyacentes[vertice][otroVertice];
         }

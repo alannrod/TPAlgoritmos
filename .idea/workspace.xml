@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="generando archivo de texto, mejorando busqueda local">
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="refinando algunos detalles">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/estructuras/GrafoMatriz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/estructuras/GrafoMatriz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/salida/CrearArchivo2Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/salida/CrearArchivo2Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +39,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.CrearArchivo2Test">
+  <component name="RunManager" selected="Application.Unnamed">
     <configuration name="CrearArchivo2Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="salida.CrearArchivo2Test" />
       <module name="TPAlgoritmos" />
@@ -148,7 +151,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658377268400</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="refinando algunos detalles">
+      <created>1658412524160</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1658412524160</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -169,7 +179,8 @@
     <MESSAGE value="separando las aristas y los pesos para crear un grafo a partir de un xml" />
     <MESSAGE value="cambiando la matriz de adayacencia por float asi guardo el peso del xml, se puede crear un GrafoMatriz a partir de un archivo xml" />
     <MESSAGE value="generando archivo de texto, mejorando busqueda local" />
-    <option name="LAST_COMMIT_MESSAGE" value="generando archivo de texto, mejorando busqueda local" />
+    <MESSAGE value="refinando algunos detalles" />
+    <option name="LAST_COMMIT_MESSAGE" value="refinando algunos detalles" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
