@@ -2,7 +2,7 @@ package estructuras;
 
 public class Circuito {
     public int [] camino;
-    public int costo;
+    public float costo;
 
     public Circuito(int[] vecinoNuevo) {
         this.camino = vecinoNuevo;

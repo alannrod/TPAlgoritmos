@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="probado los busquedaLocal1 y 2">
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="genera archivo de salida a partir de un archivo de entrada">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/salida/ArchivoSalida.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/salida/ArchivoSalida.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/estructuras/Circuito.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/estructuras/Circuito.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/burma14.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +164,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658416089545</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="genera archivo de salida a partir de un archivo de entrada">
+      <created>1658421290134</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1658421290134</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -187,7 +194,8 @@
     <MESSAGE value="generando archivo de texto, mejorando busqueda local" />
     <MESSAGE value="refinando algunos detalles" />
     <MESSAGE value="probado los busquedaLocal1 y 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="probado los busquedaLocal1 y 2" />
+    <MESSAGE value="genera archivo de salida a partir de un archivo de entrada" />
+    <option name="LAST_COMMIT_MESSAGE" value="genera archivo de salida a partir de un archivo de entrada" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

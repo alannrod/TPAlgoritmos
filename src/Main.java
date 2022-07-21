@@ -8,19 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     public static void main(String[] args) {
-        GrafoMatriz otroGrafo = new GrafoMatriz(4);
-        otroGrafo.nuevoArco("1","2",7);
-        otroGrafo.nuevoArco("1","3",9);
-        otroGrafo.nuevoArco("1","4",8);
-        otroGrafo.nuevoArco("2","1",7);
-        otroGrafo.nuevoArco("2","3",10);
-        otroGrafo.nuevoArco("2","4",4);
-        otroGrafo.nuevoArco("3","1",9);
-        otroGrafo.nuevoArco("3","2",10);
-        otroGrafo.nuevoArco("3","4",15);
-        otroGrafo.nuevoArco("4","1",8);
-        otroGrafo.nuevoArco("4","2",4);
-        otroGrafo.nuevoArco("4","3",15);
+        GrafoMatriz otroGrafo = crearGrafoDeEjemplo();
         int [] camino = recorridoViajanteDeComercio(otroGrafo);
         imprimirArreglo (camino);
         System.out.println("ahora aleatorio");
@@ -33,14 +21,16 @@ public class Main {
         imprimirArreglo(otroCircuito.camino);
         System.out.println("accediendo a los datos xml");
         XMLaccessing archivoDeEntrada = new XMLaccessing();
-        String [] resultado1 = archivoDeEntrada.adyacentesDe("1");
-        String[] resultado2 = archivoDeEntrada.pesosDe("1");
-        imprimirArreglo(resultado1);
-        imprimirArreglo(resultado2);
+        //String [] resultado1 = archivoDeEntrada.adyacentesDe("1");
+        //String[] resultado2 = archivoDeEntrada.pesosDe("1");
+        //imprimirArreglo(resultado1);
+        //imprimirArreglo(resultado2);
         GrafoMatriz grafoxml = new GrafoMatriz(archivoDeEntrada);
         int[] camino3 = recorridoViajanteDeComercio(grafoxml);
         imprimirArreglo(camino3);
-        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","prueba.txt");
+        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","outputBurma.txt");
+        algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml","outputBrazil.txt");
+        algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml","outputGr137.txt");
     }
 
     private static void imprimirArreglo(int[] arreglo) {
@@ -179,10 +169,12 @@ public class Main {
         miSalida.escribirEnElArchivo("obtuvimos la siguiente solucion usando camino Hamiltoneano: "+Arrays.toString(camino));
         Circuito elMejorHastaAhora = new Circuito(camino);
         elMejorHastaAhora.costo = recorrerElGrafo(miGrafo,camino);
+        miSalida.escribirEnElArchivo("cuyo costo de recorrer es: "+ elMejorHastaAhora.costo);
         Circuito hayOtroMejor = busquedaLocal(elMejorHastaAhora,miGrafo);
         while (hayOtroMejor != elMejorHastaAhora){
             elMejorHastaAhora = hayOtroMejor;
             miSalida.escribirEnElArchivo("Con busqueda local se presento esta nueva solucion: "+ Arrays.toString(elMejorHastaAhora.camino));
+            miSalida.escribirEnElArchivo("y el costo de recorrer es: " + elMejorHastaAhora.costo);
             hayOtroMejor = busquedaLocal(elMejorHastaAhora,miGrafo);
         }
         miSalida.cerrarArchivo();
@@ -228,8 +220,8 @@ public class Main {
         return caminoSugerido.costo> vecino.costo;
     }
 
-    private static int recorrerElGrafo(GrafoMatriz grafo, int[] camino) {
-        int pesoAcumulado=0;
+    private static float recorrerElGrafo(GrafoMatriz grafo, int[] camino) {
+        float pesoAcumulado=0;
         for (int vertice =0; vertice< camino.length; vertice++){
             pesoAcumulado += grafo.pesoDeArista(vertice,vertice+1);
         }
@@ -305,5 +297,23 @@ public class Main {
         System.arraycopy(arregloTemporal, 0, arregloFinal, 0, arregloFinal.length);
         return arregloFinal;
     }
+
+    private static GrafoMatriz crearGrafoDeEjemplo(){
+        GrafoMatriz resultante =new GrafoMatriz(4);
+        resultante.nuevoArco("1","2",7);
+        resultante.nuevoArco("1","3",9);
+        resultante.nuevoArco("1","4",8);
+        resultante.nuevoArco("2","1",7);
+        resultante.nuevoArco("2","3",10);
+        resultante.nuevoArco("2","4",4);
+        resultante.nuevoArco("3","1",9);
+        resultante.nuevoArco("3","2",10);
+        resultante.nuevoArco("3","4",15);
+        resultante.nuevoArco("4","1",8);
+        resultante.nuevoArco("4","2",4);
+        resultante.nuevoArco("4","3",15);
+        return resultante;
+    }
+
 
 }
