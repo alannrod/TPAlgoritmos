@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="cambiando la matriz de adayacencia por float asi guardo el peso del xml, se puede crear un GrafoMatriz a partir de un archivo xml">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/salida/ArchivoSalida.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/salida/CrearArchivo2Test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/salida/CrearArchivoTest.java" afterDir="false" />
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="generando archivo de texto, mejorando busqueda local">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
@@ -33,13 +29,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.CrearArchivo2Test">
     <configuration name="CrearArchivo2Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="salida.CrearArchivo2Test" />
@@ -145,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658356396556</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="generando archivo de texto, mejorando busqueda local">
+      <created>1658377268400</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1658377268400</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -165,7 +168,8 @@
     <MESSAGE value="xml ya leido" />
     <MESSAGE value="separando las aristas y los pesos para crear un grafo a partir de un xml" />
     <MESSAGE value="cambiando la matriz de adayacencia por float asi guardo el peso del xml, se puede crear un GrafoMatriz a partir de un archivo xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="cambiando la matriz de adayacencia por float asi guardo el peso del xml, se puede crear un GrafoMatriz a partir de un archivo xml" />
+    <MESSAGE value="generando archivo de texto, mejorando busqueda local" />
+    <option name="LAST_COMMIT_MESSAGE" value="generando archivo de texto, mejorando busqueda local" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

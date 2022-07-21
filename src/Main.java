@@ -2,6 +2,7 @@ import entrada.XMLaccessing;
 import estructuras.Circuito;
 import estructuras.GrafoMatriz;
 
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
@@ -40,14 +41,14 @@ public class Main {
 
     private static void imprimirArreglo(int[] arreglo) {
         System.out.println("se tiene el siguiente arreglo");
-        for (int i =0;i <arreglo.length;i++){
-            System.out.println(" "+ arreglo[i]+ ";");
+        for (int posicion :arreglo){
+            System.out.println(" "+ posicion + ";");
         }
     }
     private static void imprimirArreglo(String [] arreglo) {
         System.out.println("se tiene el siguiente arreglo");
-        for (int i =0;i <arreglo.length;i++){
-            System.out.println( arreglo[i] + ";");
+        for (String palabra : arreglo){
+            System.out.println( palabra + ";");
         }
     }
 
@@ -112,7 +113,7 @@ public class Main {
                 }
             }
             agregarLosNoCandidatosALosCandidatos (candidatos,noCandidatos);
-            int siguiente = getNumeroRandom(0, ocupados(candidatos));
+            int siguiente = getNumeroRandom(ocupados(candidatos));
             nodoActual = candidatos[siguiente];
         }
         return caminoRecorrido;
@@ -164,14 +165,14 @@ public class Main {
 
     private static boolean encontreMejorSolucion(Circuito caminoSugerido, Circuito vecino, GrafoMatriz grafo) {
         //compararemos ambos caminos
-        int tamaño = caminoSugerido.camino.length;
-        String [] estanSoloEnSugerido= new String[tamaño];
+        int tamanio = caminoSugerido.camino.length;
+        String [] estanSoloEnSugerido= new String[tamanio];
         int costoMenos = 0;
-        String [] estanSoloEnElVecino = new String[tamaño];
+        String [] estanSoloEnElVecino = new String[tamanio];
         int costoMas = 0;
-        for (int i = 0; i < tamaño; i++){
+        for (int i = 0; i < tamanio; i++){
             if (vecino.camino[i]!=caminoSugerido.camino[i]){
-                if (i < tamaño-1){
+                if (i < tamanio-1){
                     //si lo encontre en antes del ultimo puesto comparo con el siguiente, por ahi se invirtio y eso es la misma arista con el mismo peso
                     if ((vecino.camino[i]!=caminoSugerido.camino[i+1])&&(caminoSugerido.camino[i]!=vecino.camino[i+1])){
                         estanSoloEnSugerido[i] = String.valueOf(caminoSugerido.camino[i]);
@@ -201,8 +202,6 @@ public class Main {
     private static int recorrerElGrafo(GrafoMatriz grafo, int[] camino) {
         int pesoAcumulado=0;
         for (int vertice =0; vertice< camino.length; vertice++){
-            String actual = String.valueOf(vertice);
-            String siguiente = String.valueOf(vertice+1);
             pesoAcumulado += grafo.pesoDeArista(vertice,vertice+1);
         }
         return pesoAcumulado;
@@ -233,13 +232,13 @@ public class Main {
     }
 
     private static void agregarLosNoCandidatosALosCandidatos(int[] candidatos, int[] noCandidatos) {
-        for (int i =0; i < noCandidatos.length;i++){
-            insertarEnSiguientePosicionLibre(candidatos,noCandidatos[i]);
+        for (int posibleCandidato : noCandidatos){
+            insertarEnSiguientePosicionLibre(candidatos,posibleCandidato);
         }
     }
 
-    private static int getNumeroRandom(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max);
+    private static int getNumeroRandom(int max) {
+        return ThreadLocalRandom.current().nextInt(0, max);
     }
 
 
@@ -253,15 +252,11 @@ public class Main {
     }
 
     private static void inicializarEnCero(int[] caminoRecorrido) {
-        for (int pos = 0; pos < caminoRecorrido.length;pos++){
-            caminoRecorrido[pos]=0;
-        }
+        Arrays.fill(caminoRecorrido, 0);
     }
 
     private static void inicializarEnFalso(boolean[] yaLoRecorri) {
-        for(int posicion=0;posicion < yaLoRecorri.length;posicion++){
-            yaLoRecorri[posicion]=false;
-        }
+        Arrays.fill(yaLoRecorri, false);
     }
     private static String[] filtrarNulos(String[] arreglo) {
         int cantidadDeNulos = 0;
@@ -269,11 +264,11 @@ public class Main {
         String[] arregloTemporal = new String[tamTotal];
         String[] arregloFinal;
         int indice = 0;
-        for (int j = 0; j < tamTotal; j++) {
-            if (arreglo[j]==null) {
+        for (String s : arreglo) {
+            if (s == null) {
                 cantidadDeNulos++;
             } else {
-                arregloTemporal[indice] = arreglo[j];
+                arregloTemporal[indice] = s;
                 indice++;
             }
         }
