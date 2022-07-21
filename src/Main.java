@@ -1,10 +1,23 @@
 import entrada.XMLaccessing;
 import estructuras.Circuito;
 import estructuras.GrafoMatriz;
+import org.jfree.chart.ChartPanel;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import salida.ArchivoSalida;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.xy.DefaultXYDataset;
+import org.jfree.data.xy.XYDataset;
+
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,12 +38,37 @@ public class Main {
         //String[] resultado2 = archivoDeEntrada.pesosDe("1");
         //imprimirArreglo(resultado1);
         //imprimirArreglo(resultado2);
-        GrafoMatriz grafoxml = new GrafoMatriz(archivoDeEntrada);
-        int[] camino3 = recorridoViajanteDeComercio(grafoxml);
-        imprimirArreglo(camino3);
+        //GrafoMatriz grafoxml = new GrafoMatriz(archivoDeEntrada);
+        //int[] camino3 = recorridoViajanteDeComercio(grafoxml);
+        //imprimirArreglo(camino3);
         algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","outputBurma.txt");
         algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml","outputBrazil.txt");
         algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml","outputGr137.txt");
+
+        XMLaccessing archivoDeEntrada1 = new XMLaccessing("burma14.xml");
+        XMLaccessing archivoDeEntrada2 = new XMLaccessing("brazil58.xml");
+        XMLaccessing archivoDeEntrada3 = new XMLaccessing("gr137.xml");
+        GrafoMatriz grafo1 = new GrafoMatriz(archivoDeEntrada1);
+        GrafoMatriz grafo2 = new GrafoMatriz(archivoDeEntrada2);
+        GrafoMatriz grafo3 = new GrafoMatriz(archivoDeEntrada3);
+
+        JFreeChart grafico = null;
+        DefaultCategoryDataset datos = new DefaultCategoryDataset();
+        float dato1 = recorrerElGrafo(grafo1,recorridoViajanteDeComercio(grafo1));
+        float dato2 = recorrerElGrafo(grafo2,recorridoViajanteDeComercio(grafo2));
+        float dato3 = recorrerElGrafo(grafo3,recorridoViajanteDeComercio(grafo3));
+        datos.addValue(dato1,"Grafica GRASP", "burma14");
+        datos.addValue(dato2,"Grafica GRASP", "brazil58");
+        datos.addValue(dato3,"Grafica GRASP", "gr137");
+        grafico = ChartFactory.createLineChart("Grafica GRASP","iteraciones","datos",datos);
+        // Creación del panel con el gráfico
+        ChartPanel panel = new ChartPanel(grafico);
+
+        JFrame ventana = new JFrame("El grafico");
+        ventana.getContentPane().add(panel);
+        ventana.pack();
+        ventana.setVisible(true);
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private static void imprimirArreglo(int[] arreglo) {
