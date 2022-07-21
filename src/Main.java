@@ -2,10 +2,14 @@ import entrada.XMLaccessing;
 import estructuras.Circuito;
 import estructuras.GrafoMatriz;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import salida.ArchivoSalida;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -65,10 +69,17 @@ public class Main {
         ChartPanel panel = new ChartPanel(grafico);
 
         JFrame ventana = new JFrame("El grafico");
+        try {
+            ChartUtilities.saveChartAsJPEG(new File("grafico.jpg"), grafico, 500, 300);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ventana.getContentPane().add(panel);
         ventana.pack();
         ventana.setVisible(true);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
     }
 
     private static void imprimirArreglo(int[] arreglo) {
