@@ -128,7 +128,7 @@ public class Main {
         }
         for (Circuito vecino: vecindad) {
             vecino.costo = recorrerElGrafo(grafo,vecino.camino);
-            if (encontreMejorSolucion(caminoSugerido,vecino)){
+            if (caminoSugerido.costo> vecino.costo){
                 mejorSolucion = vecino;
             }
         }
@@ -140,7 +140,61 @@ public class Main {
         }
     }
 
-    private static boolean encontreMejorSolucion(Circuito caminoSugerido, Circuito vecino) {
+    public static int busquedaLocalOptimizada(Circuito caminoSugerido, GrafoMatriz grafo,int intentosMax) {
+        Circuito mejorSolucion = caminoSugerido;
+        if (intentosMax > 0) {
+            int tamanioArreglo = caminoSugerido.camino.length;
+            //caminoSugerido.costo = recorrerElGrafo(grafo, caminoSugerido.camino);
+            Circuito[] vecindad = new Circuito[caminoSugerido.camino.length];
+            for (int indice = 0; indice < tamanioArreglo; indice++) {
+                vecindad[indice] = generarVecino(indice, tamanioArreglo, caminoSugerido);
+            }
+            for (Circuito vecino : vecindad) {
+                //vecino.costo = recorrerElGrafo(grafo, vecino.camino);
+                if (encontreMejorSolucion(caminoSugerido, vecino, grafo)) {
+                    mejorSolucion = vecino;
+                }
+            }
+            if (mejorSolucion != caminoSugerido) {
+                return busquedaLocalOptimizada(mejorSolucion, grafo, intentosMax--);
+            }
+        }
+        return mejorSolucion.costo;
+    }
+
+    private static boolean encontreMejorSolucion(Circuito caminoSugerido, Circuito vecino, GrafoMatriz grafo) {
+        //compararemos ambos caminos
+        int tamaño = caminoSugerido.camino.length;
+        String [] estanSoloEnSugerido= new String[tamaño];
+        int costoMenos = 0;
+        String [] estanSoloEnElVecino = new String[tamaño];
+        int costoMas = 0;
+        for (int i = 0; i < tamaño; i++){
+            if (vecino.camino[i]!=caminoSugerido.camino[i]){
+                if (i < tamaño-1){
+                    //si lo encontre en antes del ultimo puesto comparo con el siguiente, por ahi se invirtio y eso es la misma arista con el mismo peso
+                    if ((vecino.camino[i]!=caminoSugerido.camino[i+1])&&(caminoSugerido.camino[i]!=vecino.camino[i+1])){
+                        estanSoloEnSugerido[i] = String.valueOf(caminoSugerido.camino[i]);
+                        estanSoloEnElVecino[i] = String.valueOf(vecino.camino[i]);
+                        estanSoloEnSugerido[i+1]= String.valueOf(caminoSugerido.camino[i+1]);
+                        estanSoloEnElVecino[i+1] = String.valueOf(vecino.camino[i+1]);
+                    }
+                }
+                else {
+                    estanSoloEnSugerido[i] = String.valueOf(caminoSugerido.camino[i]);
+                    estanSoloEnElVecino[i] = String.valueOf(vecino.camino[i]);
+                    estanSoloEnSugerido[i-1]= String.valueOf(caminoSugerido.camino[i-1]);
+                    estanSoloEnElVecino[i-1] = String.valueOf(vecino.camino[i-1]);
+                }
+            }
+        }
+        String [] soloEnSugerido = filtrarNulos(estanSoloEnSugerido);
+        String [] soloEnVecinos = filtrarNulos(estanSoloEnElVecino);
+        for (int j =0; j < soloEnVecinos.length-1; j++){
+            costoMas += grafo.pesoDeArista(Integer.parseInt(soloEnVecinos[j]),Integer.parseInt(soloEnVecinos[j+1]));
+            costoMenos += grafo.pesoDeArista(Integer.parseInt(soloEnSugerido[j]),Integer.parseInt(soloEnSugerido[j+1]));
+        }
+        vecino.costo = caminoSugerido.costo - costoMenos + costoMas;
         return caminoSugerido.costo> vecino.costo;
     }
 
@@ -208,6 +262,26 @@ public class Main {
         for(int posicion=0;posicion < yaLoRecorri.length;posicion++){
             yaLoRecorri[posicion]=false;
         }
+    }
+    private static String[] filtrarNulos(String[] arreglo) {
+        int cantidadDeNulos = 0;
+        int tamTotal = arreglo.length;
+        String[] arregloTemporal = new String[tamTotal];
+        String[] arregloFinal;
+        int indice = 0;
+        for (int j = 0; j < tamTotal; j++) {
+            if (arreglo[j]==null) {
+                cantidadDeNulos++;
+            } else {
+                arregloTemporal[indice] = arreglo[j];
+                indice++;
+            }
+        }
+        arregloFinal = new String[tamTotal - cantidadDeNulos];
+        for (int k = 0; k < arregloFinal.length; k++) {
+            arregloFinal[k] = arregloTemporal[k];
+        }
+        return arregloFinal;
     }
 
 }

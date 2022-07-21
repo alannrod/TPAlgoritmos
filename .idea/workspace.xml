@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="separando las aristas y los pesos para crear un grafo a partir de un xml">
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="cambiando la matriz de adayacencia por float asi guardo el peso del xml, se puede crear un GrafoMatriz a partir de un archivo xml">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/salida/ArchivoSalida.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/salida/CrearArchivo2Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/salida/CrearArchivoTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entrada/XMLaccessing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estructuras/GrafoMatriz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/estructuras/GrafoMatriz.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,13 +33,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true"
   }
-}</component>
-  <component name="RunManager" selected="Application.Unnamed">
+}]]></component>
+  <component name="RunManager" selected="Application.CrearArchivo2Test">
+    <configuration name="CrearArchivo2Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="salida.CrearArchivo2Test" />
+      <module name="TPAlgoritmos" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="salida.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CrearArchivoTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="salida.CrearArchivoTest" />
+      <module name="TPAlgoritmos" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="salida.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="TPAlgoritmos" />
@@ -60,10 +89,14 @@
     </configuration>
     <list>
       <item itemvalue="Application.Unnamed" />
+      <item itemvalue="Application.CrearArchivo2Test" />
+      <item itemvalue="Application.CrearArchivoTest" />
       <item itemvalue="Application.XMLtesting" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CrearArchivo2Test" />
+        <item itemvalue="Application.CrearArchivoTest" />
         <item itemvalue="Application.XMLtesting" />
       </list>
     </recent_temporary>
@@ -105,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658329578387</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="cambiando la matriz de adayacencia por float asi guardo el peso del xml, se puede crear un GrafoMatriz a partir de un archivo xml">
+      <created>1658356396556</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1658356396556</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -124,7 +164,8 @@
     <MESSAGE value="mejorando lectura xml" />
     <MESSAGE value="xml ya leido" />
     <MESSAGE value="separando las aristas y los pesos para crear un grafo a partir de un xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="separando las aristas y los pesos para crear un grafo a partir de un xml" />
+    <MESSAGE value="cambiando la matriz de adayacencia por float asi guardo el peso del xml, se puede crear un GrafoMatriz a partir de un archivo xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="cambiando la matriz de adayacencia por float asi guardo el peso del xml, se puede crear un GrafoMatriz a partir de un archivo xml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
