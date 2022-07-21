@@ -3,52 +3,74 @@ import estructuras.Circuito;
 import estructuras.GrafoMatriz;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import salida.ArchivoSalida;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.xy.DefaultXYDataset;
-import org.jfree.data.xy.XYDataset;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
+        //creo un grafo completo de 4 nodos de ejemplo, solo para probar la funcionalidad de los recorridos implementados
         GrafoMatriz otroGrafo = crearGrafoDeEjemplo();
+        //1. Proponer un algoritmo goloso para el problema del viajante de comercio.
         int [] camino = recorridoViajanteDeComercio(otroGrafo);
         imprimirArreglo (camino);
+
+        //-------------------------------------------------------
+        //2. Aleatorizar el algoritmo anterior.
         System.out.println("ahora aleatorio");
         int []camino2 = recorridoViajanteDeComercioAleatorio(otroGrafo);
         imprimirArreglo(camino2);
+
+        //----------------------------------------------------------
+        //3. Proponer un algoritmo de búsqueda local para el problema del viajante de comercio.
         Circuito inicial = new Circuito(camino);
         Circuito mejorCircuito = busquedaLocal(inicial,otroGrafo);
         imprimirArreglo(mejorCircuito.camino);
+
+        //------------------------------------------------------------
+        //4. Variar parámetros y la estrategia del algoritmo de búsqueda local que optimicen el funcionamiento del mismo.
         Circuito otroCircuito = busquedaLocalOptimizada(inicial,otroGrafo,3);
         imprimirArreglo(otroCircuito.camino);
+
+        //--------------------------------------------------------------
+        //"jugando" un poco con el xml para agarrarle la mano
         System.out.println("accediendo a los datos xml");
-        XMLaccessing archivoDeEntrada = new XMLaccessing();
-        //String [] resultado1 = archivoDeEntrada.adyacentesDe("1");
-        //String[] resultado2 = archivoDeEntrada.pesosDe("1");
-        //imprimirArreglo(resultado1);
-        //imprimirArreglo(resultado2);
-        //GrafoMatriz grafoxml = new GrafoMatriz(archivoDeEntrada);
-        //int[] camino3 = recorridoViajanteDeComercio(grafoxml);
-        //imprimirArreglo(camino3);
+//        XMLaccessing archivoDeEntrada = new XMLaccessing();
+//        String [] resultado1 = archivoDeEntrada.adyacentesDe("1");
+//        String[] resultado2 = archivoDeEntrada.pesosDe("1");
+//        imprimirArreglo(resultado1);
+//        imprimirArreglo(resultado2);
+//        GrafoMatriz grafoxml = new GrafoMatriz(archivoDeEntrada);
+//        int[] camino3 = recorridoViajanteDeComercio(grafoxml);
+//        imprimirArreglo(camino3);
+
+        //-----------------------------------------------------
+        /*5. Construir un algoritmo GRASP para el problema del viajante de comercio. La entrada de su algoritmo será un
+        archivo con una instancia del problema del viajante de comercio (ej: matriz de distancias), y la salida deberá ser
+        un archivo de texto plano con un circuito hamiltoniano y su valor.
+         */
         algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","outputBurma.txt");
         algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml","outputBrazil.txt");
         algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml","outputGr137.txt");
 
+        //---------------------------------------------------------
+        /*6. Presentar un gráco de scoring contra la cantidad de iteraciones para baterías de distintas instancias, que permita
+        decidir una cantidad de iteraciones que ayude a encontrar un valor cercano al óptimo sin desperdiciar tiempo de
+        cómputo.
+        * */
+        presentarElGrafico();
+
+    }
+
+    private static void presentarElGrafico() {
         XMLaccessing archivoDeEntrada1 = new XMLaccessing("burma14.xml");
         XMLaccessing archivoDeEntrada2 = new XMLaccessing("brazil58.xml");
         XMLaccessing archivoDeEntrada3 = new XMLaccessing("gr137.xml");
@@ -56,7 +78,6 @@ public class Main {
         GrafoMatriz grafo2 = new GrafoMatriz(archivoDeEntrada2);
         GrafoMatriz grafo3 = new GrafoMatriz(archivoDeEntrada3);
 
-        JFreeChart grafico = null;
         DefaultCategoryDataset datos = new DefaultCategoryDataset();
         float dato1 = recorrerElGrafo(grafo1,recorridoViajanteDeComercio(grafo1));
         float dato2 = recorrerElGrafo(grafo2,recorridoViajanteDeComercio(grafo2));
@@ -64,7 +85,7 @@ public class Main {
         datos.addValue(dato1,"Grafica GRASP", "burma14");
         datos.addValue(dato2,"Grafica GRASP", "brazil58");
         datos.addValue(dato3,"Grafica GRASP", "gr137");
-        grafico = ChartFactory.createLineChart("Grafica GRASP","iteraciones","datos",datos);
+        JFreeChart grafico = ChartFactory.createLineChart("Grafica GRASP","iteraciones","datos",datos);
         // Creación del panel con el gráfico
         ChartPanel panel = new ChartPanel(grafico);
 
@@ -78,7 +99,6 @@ public class Main {
         ventana.pack();
         ventana.setVisible(true);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 
     }
 
@@ -98,19 +118,19 @@ public class Main {
     }
 
     public static int[] recorridoViajanteDeComercio(GrafoMatriz grafo) {
-        int nodoActual = 0;
-        int posicionDelMinimo=0;
-        int tamGrafo = grafo.numeroDeVertices();
-        int [] caminoRecorrido = new int[tamGrafo];
-        boolean [] yaLoRecorri = new boolean[tamGrafo];
-        inicializarEnFalso(yaLoRecorri);
-        inicializarEnCero(caminoRecorrido);
-        while (!yaLoRecorri[nodoActual]) {
-            float[] misAdyacentes = grafo.adyacentesDe(nodoActual);
-            yaLoRecorri[nodoActual] = true;
-            insertarEnSiguientePosicionLibre(caminoRecorrido, nodoActual);
-            float pesoMinimo = grafo.pesoMasAlto(nodoActual);
-            for (int indice = 0; indice < tamGrafo; indice++) {
+        int nodoActual = 0;//O (1)
+        int posicionDelMinimo=0;//O(1)
+        int tamGrafo = grafo.numeroDeVertices();//O(1)
+        int [] caminoRecorrido = new int[tamGrafo];//O(1)
+        boolean [] yaLoRecorri = new boolean[tamGrafo];//O(1)
+        inicializarEnFalso(yaLoRecorri);//O(n)
+        inicializarEnCero(caminoRecorrido);//O(n)
+        while (!yaLoRecorri[nodoActual]) { //peor de los casos: O(n)
+            float[] misAdyacentes = grafo.adyacentesDe(nodoActual);//O(1)
+            yaLoRecorri[nodoActual] = true;//O(1)
+            insertarEnSiguientePosicionLibre(caminoRecorrido, nodoActual);//peor de los casos O(n)
+            float pesoMinimo = grafo.pesoMasAlto(nodoActual);// O(1)
+            for (int indice = 0; indice < tamGrafo; indice++) { //todo el if se ejecuta tantas veces como nodos haya O(m)
                 if (!yaLoRecorri[indice]) {
                     if (misAdyacentes[indice] < pesoMinimo) {
                         pesoMinimo = misAdyacentes[indice];
@@ -118,33 +138,33 @@ public class Main {
                     }
                 }
             }
-            nodoActual = posicionDelMinimo;
+            nodoActual = posicionDelMinimo;//O(1)
         }
         return caminoRecorrido;
-    }
+    } // el while que ejecuta un for define el orden del metodo : O(n.m)
 
     public static int[] recorridoViajanteDeComercioAleatorio(GrafoMatriz grafo) {
-        int nodoActual = 0;
-        int tamGrafo = grafo.numeroDeVertices();
-        int [] caminoRecorrido = new int[tamGrafo];
-        boolean [] yaLoRecorri = new boolean[tamGrafo];
+        int nodoActual = 0; //O(1)
+        int tamGrafo = grafo.numeroDeVertices(); //O(1)
+        int [] caminoRecorrido = new int[tamGrafo]; //O(1)
+        boolean [] yaLoRecorri = new boolean[tamGrafo]; //O(1)
         //elementos adicionales una cierta cantidad de candidatos
-        int porcentajeDelGrafo = (tamGrafo *5)/100;
-        if (porcentajeDelGrafo<=0) porcentajeDelGrafo=1;//para arreglos muy pequeños que no pueda sacar cierto porcentaje
+        int porcentajeDelGrafo = (tamGrafo *5)/100; //O(1)
+        if (porcentajeDelGrafo<=0) porcentajeDelGrafo=1;//O(1) // para arreglos muy pequeños que no pueda sacar cierto porcentaje
         //otro elemento adicional un arreglo de los nodos candidatos
-        int[] candidatos = new int[tamGrafo];
+        int[] candidatos = new int[tamGrafo]; //O(1)
         // y un arreglo para los que no son los minimos pero por descarte se deben recorrer
         int[] noCandidatos = new int[tamGrafo];
-        inicializarEnFalso(yaLoRecorri);
-        inicializarEnCero(caminoRecorrido);
-        inicializarEnCero(candidatos);
-        inicializarEnCero(noCandidatos);
-        while ((nodoActual < tamGrafo)&&(!yaLoRecorri[nodoActual])) {
-            float[] misAdyacentes = grafo.adyacentesDe(nodoActual);
-            yaLoRecorri[nodoActual] = true;
-            insertarEnSiguientePosicionLibre(caminoRecorrido, nodoActual);
-            float pesoMinimo = grafo.pesoMasAlto(nodoActual);
-            for (int indice = 0; indice < tamGrafo; indice++) {
+        inicializarEnFalso(yaLoRecorri); //O(n)
+        inicializarEnCero(caminoRecorrido); //O(n)
+        inicializarEnCero(candidatos); //O(n)
+        inicializarEnCero(noCandidatos); //O(n)
+        while ((nodoActual < tamGrafo)&&(!yaLoRecorri[nodoActual])) { //peor de los casos se ejecuta n veces O(n)
+            float[] misAdyacentes = grafo.adyacentesDe(nodoActual); //O(1)
+            yaLoRecorri[nodoActual] = true; //O(1)
+            insertarEnSiguientePosicionLibre(caminoRecorrido, nodoActual); //peor de los casos O(n)
+            float pesoMinimo = grafo.pesoMasAlto(nodoActual); //O(1)
+            for (int indice = 0; indice < tamGrafo; indice++) { //se ejecuta tantas veces como nodos tenga: O(m)
                 if (!yaLoRecorri[indice]) {
                     if (misAdyacentes[indice] < pesoMinimo) {
                         pesoMinimo = misAdyacentes[indice];
@@ -157,45 +177,46 @@ public class Main {
                     }
                 }
             }
-            agregarLosNoCandidatosALosCandidatos (candidatos,noCandidatos);
-            int siguiente = getNumeroRandom(ocupados(candidatos));
-            nodoActual = candidatos[siguiente];
+            agregarLosNoCandidatosALosCandidatos (candidatos,noCandidatos); //O(1)
+            int siguiente = getNumeroRandom(ocupados(candidatos)); //O(1)
+            nodoActual = candidatos[siguiente]; //O(1)
         }
         return caminoRecorrido;
-    }
+    } // el while dentro del for le da el orden a este metodo: O(n.m)
 
     public static Circuito busquedaLocal(Circuito caminoSugerido, GrafoMatriz grafo){
-        int tamanioArreglo = caminoSugerido.camino.length;
-        caminoSugerido.costo = recorrerElGrafo(grafo,caminoSugerido.camino);
-        Circuito mejorSolucion = caminoSugerido;
-        Circuito[] vecindad = new Circuito[caminoSugerido.camino.length];
-        for (int indice = 0; indice < tamanioArreglo; indice++) {
+        int tamanioArreglo = caminoSugerido.camino.length; // O(1)
+        caminoSugerido.costo = recorrerElGrafo(grafo,caminoSugerido.camino); // recorrer es de O(m)
+        Circuito mejorSolucion = caminoSugerido; //O(1)
+        Circuito[] vecindad = new Circuito[caminoSugerido.camino.length]; //O(1)
+        for (int indice = 0; indice < tamanioArreglo; indice++) { // tantos nodos tenga O(m)
             vecindad[indice]= generarVecino(indice,tamanioArreglo, caminoSugerido);
         }
-        for (Circuito vecino: vecindad) {
-            vecino.costo = recorrerElGrafo(grafo,vecino.camino);
+        for (Circuito vecino: vecindad) { //tantos elementos de la vecindad: O(n)
+            vecino.costo = recorrerElGrafo(grafo,vecino.camino); // recorrer es de O(m)
             if (caminoSugerido.costo> vecino.costo){
                 mejorSolucion = vecino;
             }
         }
-        if (mejorSolucion != caminoSugerido){
+        if (mejorSolucion != caminoSugerido){ //mejor o peor caso O(1)
             return busquedaLocal(mejorSolucion,grafo);
         }
         else {
             return mejorSolucion;
         }
-    }
+    } //tenemos "m" de recorrer + "m" de generar vecinos + "n" veces buscar el optimo recorriendo cada vez "m"
+    //nos da 2m + n.m = (2+n)m = Orden(n.m)
 
     public static Circuito busquedaLocalOptimizada(Circuito caminoSugerido, GrafoMatriz grafo,int intentosMax) {
-        Circuito mejorSolucion = caminoSugerido;
-        if (intentosMax > 0) {
-            int tamanioArreglo = caminoSugerido.camino.length;
+        Circuito mejorSolucion = caminoSugerido; //O(1)
+        if (intentosMax > 0) { //peor de los casos ejecutara los 2 for de orden m -> O (m . m)
+            int tamanioArreglo = caminoSugerido.camino.length;//O(1)
             //caminoSugerido.costo = recorrerElGrafo(grafo, caminoSugerido.camino);
-            Circuito[] vecindad = new Circuito[caminoSugerido.camino.length];
-            for (int indice = 0; indice < tamanioArreglo; indice++) {
+            Circuito[] vecindad = new Circuito[caminoSugerido.camino.length]; //O(1)
+            for (int indice = 0; indice < tamanioArreglo; indice++) { //se ejecuta cuantos vertices tenga -> O(m)
                 vecindad[indice] = generarVecino(indice, tamanioArreglo, caminoSugerido);
             }
-            for (Circuito vecino : vecindad) {
+            for (Circuito vecino : vecindad) {//se ejecuta cuantos vecinos tenga -> O(n)
                 //vecino.costo = recorrerElGrafo(grafo, vecino.camino);
                 if (encontreMejorSolucion(caminoSugerido, vecino, grafo)) {
                     mejorSolucion = vecino;
@@ -206,7 +227,7 @@ public class Main {
             }
         }
         return mejorSolucion;
-    }
+    } // el orden se los da los dos for O(m+n)
 
 
     public static void algoritmoGRASPconArchivoDeEntradaYDeSalida(String nombreDelArchivoEntrada, String nombreDelArchivoDeSalida) {
@@ -270,56 +291,56 @@ public class Main {
     }
 
     private static float recorrerElGrafo(GrafoMatriz grafo, int[] camino) {
-        float pesoAcumulado=0;
-        for (int vertice =0; vertice< camino.length; vertice++){
-            pesoAcumulado += grafo.pesoDeArista(vertice,vertice+1);
+        float pesoAcumulado=0; //O(1)
+        for (int vertice =0; vertice< camino.length; vertice++){ //O(n)
+            pesoAcumulado += grafo.pesoDeArista(vertice,vertice+1); //O(1)
         }
         return pesoAcumulado;
-    }
+    } // el metodo es de O(n)
 
     private static Circuito generarVecino(int indice, int tamanioArreglo, Circuito mejorSolucion) {
-        int[] vecinoNuevo = mejorSolucion.camino; //le copio todos los valores
-        if (indice < tamanioArreglo-1){
+        int[] vecinoNuevo = mejorSolucion.camino; //O(1) //le copio todos los valores
+        if (indice < tamanioArreglo-1){ //peor de los caso se ejecuta dos intrucciones de orden 1
             //swappeo el del indice actual y su siguiente
-            vecinoNuevo[indice]= mejorSolucion.camino[indice + 1];
-            vecinoNuevo[indice +1] = mejorSolucion.camino[indice];
+            vecinoNuevo[indice]= mejorSolucion.camino[indice + 1]; //O(1)
+            vecinoNuevo[indice +1] = mejorSolucion.camino[indice]; //O(1)
         }
         else {
             // swappeo el primero con el ultimo
-            vecinoNuevo[indice]= mejorSolucion.camino[0];
-            vecinoNuevo[0] = mejorSolucion.camino[indice];
+            vecinoNuevo[indice]= mejorSolucion.camino[0]; //O(1)
+            vecinoNuevo[0] = mejorSolucion.camino[indice]; //O(1)
         }
         return new Circuito(vecinoNuevo);
-    }
+    }// ejecuta 3 asignaciones de orden constante -> O(1)
 
 
     private static int ocupados(int[] candidatos) {
         int contador = 0;
-        while ((contador < candidatos.length)&&(candidatos[contador]!=0)){
-            contador++;
+        while ((contador < candidatos.length)&&(candidatos[contador]!=0)){// peor de los casos se ejecuta n veces
+            contador++; //O(1)
         }
         return contador;
-    }
+    }// el metodo es de O(n)
 
     private static void agregarLosNoCandidatosALosCandidatos(int[] candidatos, int[] noCandidatos) {
-        for (int posibleCandidato : noCandidatos){
-            insertarEnSiguientePosicionLibre(candidatos,posibleCandidato);
+        for (int posibleCandidato : noCandidatos){ //se ejecuta tantos candidatos tenga: O(n)
+            insertarEnSiguientePosicionLibre(candidatos,posibleCandidato); //O(n)
         }
-    }
+    } //O(n cuadrado)
 
     private static int getNumeroRandom(int max) {
-        return ThreadLocalRandom.current().nextInt(0, max);
-    }
+        return ThreadLocalRandom.current().nextInt(0, max);//O(1)
+    } //O(1)
 
 
     private static void insertarEnSiguientePosicionLibre(int[] unArreglo, int aGuardar) {
-        int puntero = 0;
-        while ((puntero < unArreglo.length)&& (unArreglo[puntero]!=0)){//recorro hasta encontrar una posicion en 0
-            puntero++;
+        int puntero = 0; //O(1)
+        while ((puntero < unArreglo.length)&& (unArreglo[puntero]!=0)){//O(n) //recorro hasta encontrar una posicion en 0
+            puntero++;//O(1)
         }
         if (puntero<unArreglo.length)
-            unArreglo[puntero]=aGuardar+1;
-    }
+            unArreglo[puntero]=aGuardar+1;//O(1)
+    } //el while le da orden a este metodo: O(n)
 
     private static void inicializarEnCero(int[] caminoRecorrido) {
         Arrays.fill(caminoRecorrido, 0);
