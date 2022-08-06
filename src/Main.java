@@ -8,12 +8,15 @@ import salida.ArchivoSalida;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 
 import javax.swing.*;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
@@ -66,7 +69,7 @@ public class Main {
         decidir una cantidad de iteraciones que ayude a encontrar un valor cercano al óptimo sin desperdiciar tiempo de
         cómputo.
         * */
-        presentarElGrafico();
+       // presentarElGrafico();
 
     }
 
@@ -150,15 +153,17 @@ public class Main {
         boolean [] yaLoRecorri = new boolean[tamGrafo]; //O(1)
         //elementos adicionales una cierta cantidad de candidatos
         int porcentajeDelGrafo = (tamGrafo *5)/100; //O(1)
-        if (porcentajeDelGrafo<=0) porcentajeDelGrafo=1;//O(1) // para arreglos muy pequeños que no pueda sacar cierto porcentaje
+        if (porcentajeDelGrafo<=0) porcentajeDelGrafo=2;//O(1) // para arreglos muy pequeños que no pueda sacar cierto porcentaje
         //otro elemento adicional un arreglo de los nodos candidatos
-        int[] candidatos = new int[tamGrafo]; //O(1)
+        float[] candidatos = new float[tamGrafo]; //O(1)
+        //un diccionario donde por cada peso dejo un nodo
+        Map<Float, Integer> diccionario = new HashMap<>();
         // y un arreglo para los que no son los minimos pero por descarte se deben recorrer
-        int[] noCandidatos = new int[tamGrafo];
+       // int[] noCandidatos = new int[tamGrafo];
         inicializarEnFalso(yaLoRecorri); //O(n)
         inicializarEnCero(caminoRecorrido); //O(n)
         inicializarEnCero(candidatos); //O(n)
-        inicializarEnCero(noCandidatos); //O(n)
+        //inicializarEnCero(noCandidatos); //O(n)
         while ((nodoActual < tamGrafo)&&(!yaLoRecorri[nodoActual])) { //peor de los casos se ejecuta n veces O(n)
             float[] misAdyacentes = grafo.adyacentesDe(nodoActual); //O(1)
             yaLoRecorri[nodoActual] = true; //O(1)
@@ -166,23 +171,32 @@ public class Main {
             float pesoMinimo = grafo.pesoMasAlto(nodoActual); //O(1)
             for (int indice = 0; indice < tamGrafo; indice++) { //se ejecuta tantas veces como nodos tenga: O(m)
                 if (!yaLoRecorri[indice]) {
-                    if (misAdyacentes[indice] < pesoMinimo) {
-                        pesoMinimo = misAdyacentes[indice];
-                        insertarEnSiguientePosicionLibre(candidatos,indice);
-                        //System.out.println("agrego candidato");
-                    }
-                    else {
-                        insertarEnSiguientePosicionLibre(noCandidatos,indice);
-                        //System.out.println("agrego al otro arreglo");
-                    }
+                    insertarEnSiguientePosicionLibre(candidatos,misAdyacentes[indice]);
+                        //System.out.println("agrego al arreglo");
+                    //inserto todos los adyacentes
+                    diccionario.put(misAdyacentes[indice],indice);
                 }
             }
-            agregarLosNoCandidatosALosCandidatos (candidatos,noCandidatos); //O(1)
-            int siguiente = getNumeroRandom(ocupados(candidatos)); //O(1)
-            nodoActual = candidatos[siguiente]; //O(1)
+            //ordeno de mayor a menor los adyacentes
+            Arrays.sort(candidatos);
+           // agregarLosNoCandidatosALosCandidatos (candidatos,noCandidatos); //O(1)
+            //int siguiente = getNumeroRandom(ocupados(candidatos)); //O(1)
+            //double x = (Math.random()*((max-min)+1))+min;
+            double sig = Math.random()*((porcentajeDelGrafo-1)+1)+1;
+            int siguiente = (int)sig;
+            System.out.println(siguiente);
+            if((!diccionario.isEmpty())&& (diccionario.get(candidatos[siguiente])!=null))
+                nodoActual = diccionario.get(candidatos[siguiente]); //O(1)
+            else nodoActual= siguiente;
         }
         return caminoRecorrido;
     } // el while dentro del for le da el orden a este metodo: O(n.m)
+
+
+
+    private static void inicializarEnCero(float[] candidatos) {
+        for (int i = 0; i< candidatos.length; i++) candidatos[i]=0;
+    }
 
     public static Circuito busquedaLocal(Circuito caminoSugerido, GrafoMatriz grafo){
         int tamanioArreglo = caminoSugerido.camino.length; // O(1)
@@ -341,6 +355,15 @@ public class Main {
         if (puntero<unArreglo.length)
             unArreglo[puntero]=aGuardar+1;//O(1)
     } //el while le da orden a este metodo: O(n)
+    private static void insertarEnSiguientePosicionLibre(float[] unArreglo, float aGuardar) {
+        int puntero = 0; //O(1)
+        while ((puntero < unArreglo.length)&& (unArreglo[puntero]!=0)){//O(n) //recorro hasta encontrar una posicion en 0
+            puntero++;//O(1)
+        }
+        if (puntero<unArreglo.length)
+            unArreglo[puntero]=aGuardar+1;//O(1)
+    }
+
 
     private static void inicializarEnCero(int[] caminoRecorrido) {
         Arrays.fill(caminoRecorrido, 0);
