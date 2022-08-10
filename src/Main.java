@@ -10,7 +10,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -159,18 +158,16 @@ public class Main {
         inicializarEnCero(caminoRecorrido); //O(n)
         float[] candidatos = new float[tamGrafo]; //O(1)
         while (yaRecorridos(yaLoRecorri)< tamGrafo) { //peor de los casos se ejecuta n veces O(n)
-            if(! yaLoRecorri[nodoActual]) {
-                float[] misAdyacentes = grafo.adyacentesDe(nodoActual); //O(1)
-                inicializarEnCero(candidatos); //O(n)
-                yaLoRecorri[nodoActual] = true; //O(1)
-                insertarEnSiguientePosicionLibre(caminoRecorrido, nodoActual); //peor de los casos O(n)
-                for (int indice = 0; indice < tamGrafo; indice++) { //se ejecuta tantas veces como nodos tenga: O(m)
-                    if (!yaLoRecorri[indice]) {
-                        insertarEnSiguientePosicionLibre(candidatos, misAdyacentes[indice]);
-                        //System.out.println("agrego al arreglo");
-                        //inserto todos los adyacentes
-                        diccionario.put(misAdyacentes[indice], indice);
-                    }
+            float[] misAdyacentes = grafo.adyacentesDe(nodoActual); //O(1)
+            inicializarEnCero(candidatos); //O(n)
+            yaLoRecorri[nodoActual] = true; //O(1)
+            insertarEnSiguientePosicionLibre(caminoRecorrido, nodoActual); //peor de los casos O(n)
+            for (int indice = 0; indice < tamGrafo; indice++) { //se ejecuta tantas veces como nodos tenga: O(m)
+                if (!yaLoRecorri[indice]) {
+                    insertarEnSiguientePosicionLibre(candidatos, misAdyacentes[indice]);
+                    //System.out.println("agrego al arreglo");
+                    //inserto todos los adyacentes
+                    diccionario.put(misAdyacentes[indice], indice);
                 }
                 //ordeno de mayor a menor los adyacentes
                 Arrays.sort(candidatos);
@@ -178,7 +175,7 @@ public class Main {
             //double x = (Math.random()*((max-min)+1))+min;
             double sig = Math.random() * ((porcentajeDelGrafo) + 1) + porcentajeDelGrafo;
             int siguiente = (int)sig;
-            //System.out.println(siguiente);
+            System.out.println(siguiente);
             if((!diccionario.isEmpty())&& (diccionario.get(candidatos[siguiente])!=null))
                 nodoActual = diccionario.get(candidatos[siguiente]); //O(1)
             else nodoActual= siguiente;
@@ -198,7 +195,7 @@ public class Main {
 
 
     private static void inicializarEnCero(float[] candidatos) {
-        for (int i = 0; i< candidatos.length; i++) candidatos[i]=0;
+        Arrays.fill(candidatos, 0);
     }
 
     public static Circuito busquedaLocal(Circuito caminoSugerido, GrafoMatriz grafo){
@@ -331,23 +328,8 @@ public class Main {
     }// ejecuta 3 asignaciones de orden constante -> O(1)
 
 
-    private static int ocupados(int[] candidatos) {
-        int contador = 0;
-        while ((contador < candidatos.length)&&(candidatos[contador]!=0)){// peor de los casos se ejecuta n veces
-            contador++; //O(1)
-        }
-        return contador;
-    }// el metodo es de O(n)
 
-    private static void agregarLosNoCandidatosALosCandidatos(int[] candidatos, int[] noCandidatos) {
-        for (int posibleCandidato : noCandidatos){ //se ejecuta tantos candidatos tenga: O(n)
-            insertarEnSiguientePosicionLibre(candidatos,posibleCandidato); //O(n)
-        }
-    } //O(n cuadrado)
 
-    private static int getNumeroRandom(int max) {
-        return ThreadLocalRandom.current().nextInt(0, max);//O(1)
-    } //O(1)
 
 
     private static void insertarEnSiguientePosicionLibre(int[] unArreglo, int aGuardar) {
