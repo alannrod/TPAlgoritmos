@@ -197,6 +197,31 @@ public class Main {
     private static void inicializarEnCero(float[] candidatos) {
         Arrays.fill(candidatos, 0);
     }
+//---------------------------------------------------------------------------------------------------------------------
+//redefininiendo busqueda local
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static Circuito busquedaLocal(Circuito caminoSugerido, GrafoMatriz grafo){
         int tamanioArreglo = caminoSugerido.camino.length; // O(1)
