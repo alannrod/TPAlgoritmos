@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="eliminando metodos trash">
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="redefiniendo busqueda local">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660168444313</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="redefiniendo busqueda local">
+      <created>1660252749477</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1660252749477</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -252,7 +260,8 @@
     <MESSAGE value="aleatorio goloso, random con los minimos" />
     <MESSAGE value="minimo goloso accediendo a todos los nodos" />
     <MESSAGE value="eliminando metodos trash" />
-    <option name="LAST_COMMIT_MESSAGE" value="eliminando metodos trash" />
+    <MESSAGE value="redefiniendo busqueda local" />
+    <option name="LAST_COMMIT_MESSAGE" value="redefiniendo busqueda local" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

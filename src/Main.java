@@ -7,9 +7,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import salida.ArchivoSalida;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -32,14 +30,17 @@ public class Main {
 
         //----------------------------------------------------------
         //3. Proponer un algoritmo de búsqueda local para el problema del viajante de comercio.
-        Circuito inicial = new Circuito(camino);
-        Circuito mejorCircuito = busquedaLocal(inicial,otroGrafo);
-        imprimirArreglo(mejorCircuito.camino);
+        //Circuito inicial = new Circuito(camino);
+        //Circuito mejorCircuito = busquedaLocal(inicial,otroGrafo);
+        //imprimirArreglo(mejorCircuito.camino);
+        System.out.println("busqueda local");
+        int[] camino3 = busquedaLocal(otroGrafo);
+        imprimirArreglo(camino3);
 
         //------------------------------------------------------------
         //4. Variar parámetros y la estrategia del algoritmo de búsqueda local que optimicen el funcionamiento del mismo.
-        Circuito otroCircuito = busquedaLocalOptimizada(inicial,otroGrafo,3);
-        imprimirArreglo(otroCircuito.camino);
+        //Circuito otroCircuito = busquedaLocalOptimizada(inicial,otroGrafo,3);
+        //imprimirArreglo(otroCircuito.camino);
 
         //--------------------------------------------------------------
         //"jugando" un poco con el xml para agarrarle la mano
@@ -58,9 +59,9 @@ public class Main {
         archivo con una instancia del problema del viajante de comercio (ej: matriz de distancias), y la salida deberá ser
         un archivo de texto plano con un circuito hamiltoniano y su valor.
          */
-        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","outputBurma.txt");
-        algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml","outputBrazil.txt");
-        algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml","outputGr137.txt");
+//        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","outputBurma.txt");
+//        algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml","outputBrazil.txt");
+//        algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml","outputGr137.txt");
 
         //---------------------------------------------------------
         /*6. Presentar un gráco de scoring contra la cantidad de iteraciones para baterías de distintas instancias, que permita
@@ -192,102 +193,128 @@ public class Main {
         }
         return contador;
     }
-
-
     private static void inicializarEnCero(float[] candidatos) {
         Arrays.fill(candidatos, 0);
     }
 //---------------------------------------------------------------------------------------------------------------------
 //redefininiendo busqueda local
+/*
+* procedimiento BusquedaLocal
+* s = genera una solucion inicial
+* while s no es optimo local do
+*    s'E N(s) f(s) < f(s')
+*    (solucion mejor dentro de la vecindad de s)
+*    s <- s'
+* end
+* return s
+* */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public static Circuito busquedaLocal(Circuito caminoSugerido, GrafoMatriz grafo){
-        int tamanioArreglo = caminoSugerido.camino.length; // O(1)
-        caminoSugerido.costo = recorrerElGrafo(grafo,caminoSugerido.camino); // recorrer es de O(m)
-        Circuito mejorSolucion = caminoSugerido; //O(1)
-        Circuito[] vecindad = new Circuito[caminoSugerido.camino.length]; //O(1)
-        for (int indice = 0; indice < tamanioArreglo; indice++) { // tantos nodos tenga O(m)
-            vecindad[indice]= generarVecino(indice,tamanioArreglo, caminoSugerido);
-        }
-        for (Circuito vecino: vecindad) { //tantos elementos de la vecindad: O(n)
-            vecino.costo = recorrerElGrafo(grafo,vecino.camino); // recorrer es de O(m)
-            if (caminoSugerido.costo> vecino.costo){
-                mejorSolucion = vecino;
-            }
-        }
-        if (mejorSolucion != caminoSugerido){ //mejor o peor caso O(1)
-            return busquedaLocal(mejorSolucion,grafo);
-        }
-        else {
-            return mejorSolucion;
-        }
-    } //tenemos "m" de recorrer + "m" de generar vecinos + "n" veces buscar el optimo recorriendo cada vez "m"
-    //nos da 2m + n.m = (2+n)m = Orden(n.m)
-
-    public static Circuito busquedaLocalOptimizada(Circuito caminoSugerido, GrafoMatriz grafo,int intentosMax) {
-        Circuito mejorSolucion = caminoSugerido; //O(1)
-        if (intentosMax > 0) { //peor de los casos ejecutara los 2 for de orden m -> O (m . m)
-            int tamanioArreglo = caminoSugerido.camino.length;//O(1)
-            //caminoSugerido.costo = recorrerElGrafo(grafo, caminoSugerido.camino);
-            Circuito[] vecindad = new Circuito[caminoSugerido.camino.length]; //O(1)
-            for (int indice = 0; indice < tamanioArreglo; indice++) { //se ejecuta cuantos vertices tenga -> O(m)
-                vecindad[indice] = generarVecino(indice, tamanioArreglo, caminoSugerido);
-            }
-            for (Circuito vecino : vecindad) {//se ejecuta cuantos vecinos tenga -> O(n)
-                //vecino.costo = recorrerElGrafo(grafo, vecino.camino);
-                if (encontreMejorSolucion(caminoSugerido, vecino, grafo)) {
-                    mejorSolucion = vecino;
-                }
-            }
-            if (mejorSolucion != caminoSugerido) {
-                return busquedaLocalOptimizada(mejorSolucion, grafo, intentosMax--);
-            }
-        }
-        return mejorSolucion;
-    } // el orden se los da los dos for O(m+n)
-
-
-    public static void algoritmoGRASPconArchivoDeEntradaYDeSalida(String nombreDelArchivoEntrada, String nombreDelArchivoDeSalida) {
-        XMLaccessing miEntrada = new XMLaccessing(nombreDelArchivoEntrada);
-        GrafoMatriz miGrafo = new GrafoMatriz(miEntrada);
-        ArchivoSalida miSalida = new ArchivoSalida(nombreDelArchivoDeSalida);
-        miSalida.escribirEnElArchivo("Algoritmo GRASP aplicado al archivo "+ nombreDelArchivoEntrada);
-        int [] camino = recorridoViajanteDeComercio(miGrafo);
-        miSalida.escribirEnElArchivo("obtuvimos la siguiente solucion usando camino Hamiltoneano: "+Arrays.toString(camino));
-        Circuito elMejorHastaAhora = new Circuito(camino);
-        elMejorHastaAhora.costo = recorrerElGrafo(miGrafo,camino);
-        miSalida.escribirEnElArchivo("cuyo costo de recorrer es: "+ elMejorHastaAhora.costo);
-        Circuito hayOtroMejor = busquedaLocal(elMejorHastaAhora,miGrafo);
-        while (hayOtroMejor != elMejorHastaAhora){
-            elMejorHastaAhora = hayOtroMejor;
-            miSalida.escribirEnElArchivo("Con busqueda local se presento esta nueva solucion: "+ Arrays.toString(elMejorHastaAhora.camino));
-            miSalida.escribirEnElArchivo("y el costo de recorrer es: " + elMejorHastaAhora.costo);
-            hayOtroMejor = busquedaLocal(elMejorHastaAhora,miGrafo);
-        }
-        miSalida.cerrarArchivo();
+public static int[] busquedaLocal ( GrafoMatriz grafo) {
+    int[] solucionHastaAhora = recorridoViajanteDeComercio(grafo);
+    int[] mejorSolucion = solucionHastaAhora;
+    float costoOptimo = recorrerElGrafo(grafo,mejorSolucion); // hasta ahora el unico costo que tengo
+    List<int[]> vecinos = new ArrayList<int[]>();
+    for(int iterador=0; iterador < solucionHastaAhora.length; iterador++ ){
+        int[] vecino = generarVecino(iterador, mejorSolucion.length, solucionHastaAhora);
+        vecinos.add(vecino);//agrego al vecino
     }
+    Iterator i = vecinos.iterator();
+    while(i.hasNext())
+    {
+        float nuevoCosto = recorrerElGrafo(grafo, (int[]) i.next());
+        if (nuevoCosto <costoOptimo){
+            costoOptimo = nuevoCosto;
+            mejorSolucion = (int[]) i.next();
+        }
+    }
+    return mejorSolucion;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    public static Circuito busquedaLocal(Circuito caminoSugerido, GrafoMatriz grafo){
+//        int tamanioArreglo = caminoSugerido.camino.length; // O(1)
+//        caminoSugerido.costo = recorrerElGrafo(grafo,caminoSugerido.camino); // recorrer es de O(m)
+//        Circuito mejorSolucion = caminoSugerido; //O(1)
+//        Circuito[] vecindad = new Circuito[caminoSugerido.camino.length]; //O(1)
+//        for (int indice = 0; indice < tamanioArreglo; indice++) { // tantos nodos tenga O(m)
+//            vecindad[indice]= generarVecino(indice,tamanioArreglo, caminoSugerido);
+//        }
+//        for (Circuito vecino: vecindad) { //tantos elementos de la vecindad: O(n)
+//            vecino.costo = recorrerElGrafo(grafo,vecino.camino); // recorrer es de O(m)
+//            if (caminoSugerido.costo> vecino.costo){
+//                mejorSolucion = vecino;
+//            }
+//        }
+//        if (mejorSolucion != caminoSugerido){ //mejor o peor caso O(1)
+//            return busquedaLocal(mejorSolucion,grafo);
+//        }
+//        else {
+//            return mejorSolucion;
+//        }
+//    } //tenemos "m" de recorrer + "m" de generar vecinos + "n" veces buscar el optimo recorriendo cada vez "m"
+//    //nos da 2m + n.m = (2+n)m = Orden(n.m)
+//
+//    public static Circuito busquedaLocalOptimizada(Circuito caminoSugerido, GrafoMatriz grafo,int intentosMax) {
+//        Circuito mejorSolucion = caminoSugerido; //O(1)
+//        if (intentosMax > 0) { //peor de los casos ejecutara los 2 for de orden m -> O (m . m)
+//            int tamanioArreglo = caminoSugerido.camino.length;//O(1)
+//            //caminoSugerido.costo = recorrerElGrafo(grafo, caminoSugerido.camino);
+//            Circuito[] vecindad = new Circuito[caminoSugerido.camino.length]; //O(1)
+//            for (int indice = 0; indice < tamanioArreglo; indice++) { //se ejecuta cuantos vertices tenga -> O(m)
+//                vecindad[indice] = generarVecino(indice, tamanioArreglo, caminoSugerido);
+//            }
+//            for (Circuito vecino : vecindad) {//se ejecuta cuantos vecinos tenga -> O(n)
+//                //vecino.costo = recorrerElGrafo(grafo, vecino.camino);
+//                if (encontreMejorSolucion(caminoSugerido, vecino, grafo)) {
+//                    mejorSolucion = vecino;
+//                }
+//            }
+//            if (mejorSolucion != caminoSugerido) {
+//                return busquedaLocalOptimizada(mejorSolucion, grafo, intentosMax--);
+//            }
+//        }
+//        return mejorSolucion;
+//    } // el orden se los da los dos for O(m+n)
+
+
+//    public static void algoritmoGRASPconArchivoDeEntradaYDeSalida(String nombreDelArchivoEntrada, String nombreDelArchivoDeSalida) {
+//        XMLaccessing miEntrada = new XMLaccessing(nombreDelArchivoEntrada);
+//        GrafoMatriz miGrafo = new GrafoMatriz(miEntrada);
+//        ArchivoSalida miSalida = new ArchivoSalida(nombreDelArchivoDeSalida);
+//        miSalida.escribirEnElArchivo("Algoritmo GRASP aplicado al archivo "+ nombreDelArchivoEntrada);
+//        int [] camino = recorridoViajanteDeComercio(miGrafo);
+//        miSalida.escribirEnElArchivo("obtuvimos la siguiente solucion usando camino Hamiltoneano: "+Arrays.toString(camino));
+//        Circuito elMejorHastaAhora = new Circuito(camino);
+//        elMejorHastaAhora.costo = recorrerElGrafo(miGrafo,camino);
+//        miSalida.escribirEnElArchivo("cuyo costo de recorrer es: "+ elMejorHastaAhora.costo);
+//        Circuito hayOtroMejor = busquedaLocal(elMejorHastaAhora,miGrafo);
+//        while (hayOtroMejor != elMejorHastaAhora){
+//            elMejorHastaAhora = hayOtroMejor;
+//            miSalida.escribirEnElArchivo("Con busqueda local se presento esta nueva solucion: "+ Arrays.toString(elMejorHastaAhora.camino));
+//            miSalida.escribirEnElArchivo("y el costo de recorrer es: " + elMejorHastaAhora.costo);
+//            hayOtroMejor = busquedaLocal(elMejorHastaAhora,miGrafo);
+//        }
+//        miSalida.cerrarArchivo();
+//    }
 
 
 
@@ -337,19 +364,19 @@ public class Main {
         return pesoAcumulado;
     } // el metodo es de O(n)
 
-    private static Circuito generarVecino(int indice, int tamanioArreglo, Circuito mejorSolucion) {
-        int[] vecinoNuevo = mejorSolucion.camino; //O(1) //le copio todos los valores
+    private static int[] generarVecino(int indice, int tamanioArreglo, int[] mejorSolucion) {
+        int[] vecinoNuevo = mejorSolucion; //O(1) //le copio todos los valores
         if (indice < tamanioArreglo-1){ //peor de los caso se ejecuta dos intrucciones de orden 1
             //swappeo el del indice actual y su siguiente
-            vecinoNuevo[indice]= mejorSolucion.camino[indice + 1]; //O(1)
-            vecinoNuevo[indice +1] = mejorSolucion.camino[indice]; //O(1)
+            vecinoNuevo[indice]= mejorSolucion[indice + 1]; //O(1)
+            vecinoNuevo[indice +1] = mejorSolucion[indice]; //O(1)
         }
         else {
             // swappeo el primero con el ultimo
-            vecinoNuevo[indice]= mejorSolucion.camino[0]; //O(1)
-            vecinoNuevo[0] = mejorSolucion.camino[indice]; //O(1)
+            vecinoNuevo[indice]= mejorSolucion[0]; //O(1)
+            vecinoNuevo[0] = mejorSolucion[indice]; //O(1)
         }
-        return new Circuito(vecinoNuevo);
+        return vecinoNuevo;
     }// ejecuta 3 asignaciones de orden constante -> O(1)
 
 
