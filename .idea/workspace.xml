@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="redefiniendo busqueda local">
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="busquedaLocal iterativa, pero ineficiente">
+      <change afterPath="$PROJECT_DIR$/src/estructuras/Candidato.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
@@ -230,7 +231,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660252749477</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="busquedaLocal iterativa, pero ineficiente">
+      <created>1660599055365</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1660599055365</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -261,7 +269,8 @@
     <MESSAGE value="minimo goloso accediendo a todos los nodos" />
     <MESSAGE value="eliminando metodos trash" />
     <MESSAGE value="redefiniendo busqueda local" />
-    <option name="LAST_COMMIT_MESSAGE" value="redefiniendo busqueda local" />
+    <MESSAGE value="busquedaLocal iterativa, pero ineficiente" />
+    <option name="LAST_COMMIT_MESSAGE" value="busquedaLocal iterativa, pero ineficiente" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
