@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="busquedaLocal iterativa, pero ineficiente">
-      <change afterPath="$PROJECT_DIR$/src/estructuras/Candidato.java" afterDir="false" />
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="redefinido recorrido aleatorio mas simple">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/estructuras/Circuito.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/estructuras/Circuito.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +238,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660599055365</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="redefinido recorrido aleatorio mas simple">
+      <created>1661556458877</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1661556458877</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -270,7 +277,8 @@
     <MESSAGE value="eliminando metodos trash" />
     <MESSAGE value="redefiniendo busqueda local" />
     <MESSAGE value="busquedaLocal iterativa, pero ineficiente" />
-    <option name="LAST_COMMIT_MESSAGE" value="busquedaLocal iterativa, pero ineficiente" />
+    <MESSAGE value="redefinido recorrido aleatorio mas simple" />
+    <option name="LAST_COMMIT_MESSAGE" value="redefinido recorrido aleatorio mas simple" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
