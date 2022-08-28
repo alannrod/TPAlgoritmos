@@ -62,13 +62,13 @@ public class Main {
         archivo con una instancia del problema del viajante de comercio (ej: matriz de distancias), y la salida deberá ser
         un archivo de texto plano con un circuito hamiltoniano y su valor.
          */
-        System.out.println("algoritmo GRASP");
-        System.out.println("Archivo 'burma14'");
-        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","outputBurma.txt");
-        System.out.println("Archivo 'brazil158'");
-        algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml","outputBrazil.txt");
-        System.out.println("Archivo 'gr137'");
-        algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml","outputGr137.txt");
+//        System.out.println("algoritmo GRASP");
+//        System.out.println("Archivo 'burma14'");
+//        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","outputBurma.txt");
+//        System.out.println("Archivo 'brazil158'");
+//        algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml","outputBrazil.txt");
+//        System.out.println("Archivo 'gr137'");
+//        algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml","outputGr137.txt");
 
         //---------------------------------------------------------
         /*6. Presentar un grafico de scoring contra la cantidad de iteraciones para baterías de distintas instancias, que permita
@@ -211,7 +211,8 @@ public static int[] busquedaLocal ( GrafoMatriz grafo) {
 //    }
     for (int[] vecino : vecinos) {
         float otroCosto = recorrerElGrafo(grafo, vecino);
-        if (otroCosto < costoOptimo) {
+        System.out.println("Costo del vecino "+ otroCosto);
+        if (otroCosto <= costoOptimo) {
             costoOptimo = otroCosto;
             mejorSolucion = vecino;
         }
@@ -220,7 +221,7 @@ public static int[] busquedaLocal ( GrafoMatriz grafo) {
     return mejorSolucion;
 }
 
-/******************************************************/
+
 public static int[] busquedaLocal2 ( GrafoMatriz grafo) {
     int[] solucionHastaAhora = recorridoViajanteDeComercio(grafo);
     Circuito elPrimero = new Circuito(solucionHastaAhora.clone(), recorrerElGrafo(grafo,solucionHastaAhora));
@@ -231,6 +232,8 @@ public static int[] busquedaLocal2 ( GrafoMatriz grafo) {
         int[] vecino = generarVecino(iterador, solucionHastaAhora.length, solucionHastaAhora);
         Circuito nuevoVecino = new Circuito(vecino,calcularCostoDePermutarParNro(iterador,grafo,elPrimero,vecino));
         vecinos.add(nuevoVecino);//agrego al vecino
+        System.out.println("costo del vecino " + nuevoVecino.costo);
+
     }
     Collections.sort(vecinos);
 
@@ -239,17 +242,25 @@ public static int[] busquedaLocal2 ( GrafoMatriz grafo) {
 
     private static float calcularCostoDePermutarParNro(int iterador, GrafoMatriz grafo, Circuito solucionHastaAhora, int[] vecino) {
         int[] caminoOriginal = solucionHastaAhora.camino.clone();
+        int maximo = grafo.numeroDeVertices();
         float costoDeVercicesQueNoEstan ;
         float costoDeVerticesQueAhoraEstan ;
-        if (iterador < caminoOriginal.length-1){ //peor de los caso se ejecuta dos intrucciones de orden 1
-            //el par es el del iterador actual y su siguiente
-            costoDeVercicesQueNoEstan = grafo.pesoDeArista(caminoOriginal[iterador],caminoOriginal[iterador+1]);
-            costoDeVerticesQueAhoraEstan= grafo.pesoDeArista(vecino[iterador],vecino[iterador+1]);
+        if (iterador ==0) { //se cambio el primer par entoces la arista nueva va del segundo al tercero
+            costoDeVercicesQueNoEstan = grafo.pesoDeArista(caminoOriginal[2], caminoOriginal[3]);
+            costoDeVerticesQueAhoraEstan = grafo.pesoDeArista(vecino[2], vecino[3]);
+        } else if (iterador ==maximo){ //se cambio el inicio y el fin del camino, las aristas nuevas van del penulimo al ultimo y del primero al segundo
+                costoDeVercicesQueNoEstan = grafo.pesoDeArista(caminoOriginal[0],caminoOriginal[1])+ grafo.pesoDeArista(caminoOriginal[maximo-1],caminoOriginal[maximo]);
+                costoDeVerticesQueAhoraEstan= grafo.pesoDeArista(vecino[0],vecino[1])+grafo.pesoDeArista(vecino[maximo-1],vecino[maximo]);
         }
-        else {
-            // el par es el del primero con el ultimo
-            costoDeVercicesQueNoEstan = grafo.pesoDeArista(caminoOriginal[iterador],caminoOriginal[0]);
-            costoDeVerticesQueAhoraEstan= grafo.pesoDeArista(vecino[iterador],vecino[0]);
+        else {// intercambie un par del medio las aristas anterior y posterior al par cambian
+            if (iterador< maximo-2){
+                costoDeVercicesQueNoEstan = grafo.pesoDeArista(caminoOriginal[iterador-1],caminoOriginal[iterador])+ grafo.pesoDeArista(caminoOriginal[iterador+1],caminoOriginal[iterador+2]);
+                costoDeVerticesQueAhoraEstan = grafo.pesoDeArista(vecino[iterador-1],vecino[iterador])+grafo.pesoDeArista(vecino[iterador+1],vecino[iterador+2]);
+            }
+            else {
+                costoDeVercicesQueNoEstan = grafo.pesoDeArista(caminoOriginal[iterador-1],caminoOriginal[iterador]);
+                costoDeVerticesQueAhoraEstan = grafo.pesoDeArista(vecino[iterador-1],vecino[iterador]);
+            }
 
         }
         return solucionHastaAhora.costo- costoDeVercicesQueNoEstan + costoDeVerticesQueAhoraEstan;
@@ -273,7 +284,7 @@ public static int[] busquedaLocal2 ( GrafoMatriz grafo) {
             miSalida.escribirEnElArchivo("Con busqueda local se presento esta nueva solucion: "+ Arrays.toString(elMejorHastaAhora.camino));
             miSalida.escribirEnElArchivo("y el costo de recorrer es: " + elMejorHastaAhora.costo);
             otroCamino = busquedaLocal2(miGrafo);
-            hayOtroMejor = new Circuito(otroCamino,recorrerElGrafo(miGrafo,otroCamino));
+            //hayOtroMejor = new Circuito(otroCamino,recorrerElGrafo(miGrafo,otroCamino));
         }
         miSalida.cerrarArchivo();
     }
@@ -283,8 +294,8 @@ public static int[] busquedaLocal2 ( GrafoMatriz grafo) {
 
     private static float recorrerElGrafo(GrafoMatriz grafo, int[] camino) {
         float pesoAcumulado=0; //O(1)
-        for (int vertice =0; vertice< camino.length; vertice++){ //O(n)
-            pesoAcumulado += grafo.pesoDeArista(vertice,vertice+1); //O(1)
+        for (int vertice =0; vertice< camino.length-1; vertice++){ //O(n)
+            pesoAcumulado += grafo.pesoDeArista(camino[vertice],camino[vertice+1]); //O(1)
         }
         return pesoAcumulado;
     } // el metodo es de O(n)

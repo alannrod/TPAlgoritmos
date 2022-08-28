@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="definiendo una busqueda local optimizada">
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="trabajando con los archivos xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputBrazil.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputBurma.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputGr137.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -254,7 +251,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661565553620</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="trabajando con los archivos xml">
+      <created>1661696495256</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1661696495257</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -288,7 +292,8 @@
     <MESSAGE value="busquedaLocal iterativa, pero ineficiente" />
     <MESSAGE value="redefinido recorrido aleatorio mas simple" />
     <MESSAGE value="definiendo una busqueda local optimizada" />
-    <option name="LAST_COMMIT_MESSAGE" value="definiendo una busqueda local optimizada" />
+    <MESSAGE value="trabajando con los archivos xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="trabajando con los archivos xml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
