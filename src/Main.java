@@ -62,13 +62,13 @@ public class Main {
         archivo con una instancia del problema del viajante de comercio (ej: matriz de distancias), y la salida deberá ser
         un archivo de texto plano con un circuito hamiltoniano y su valor.
          */
-//        System.out.println("algoritmo GRASP");
-//        System.out.println("Archivo 'burma14'");
-//        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","outputBurma.txt");
-//        System.out.println("Archivo 'brazil158'");
-//        algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml","outputBrazil.txt");
-//        System.out.println("Archivo 'gr137'");
-//        algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml","outputGr137.txt");
+        System.out.println("algoritmo GRASP");
+        System.out.println("Archivo 'burma14'");
+        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","outputBurma.txt");
+        System.out.println("Archivo 'brazil158'");
+        algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml","outputBrazil.txt");
+        System.out.println("Archivo 'gr137'");
+        algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml","outputGr137.txt");
 
         //---------------------------------------------------------
         /*6. Presentar un grafico de scoring contra la cantidad de iteraciones para baterías de distintas instancias, que permita
@@ -211,7 +211,6 @@ public static int[] busquedaLocal ( GrafoMatriz grafo) {
 //    }
     for (int[] vecino : vecinos) {
         float otroCosto = recorrerElGrafo(grafo, vecino);
-        System.out.println("Costo del vecino "+ otroCosto);
         if (otroCosto <= costoOptimo) {
             costoOptimo = otroCosto;
             mejorSolucion = vecino;
@@ -232,7 +231,6 @@ public static int[] busquedaLocal2 ( GrafoMatriz grafo) {
         int[] vecino = generarVecino(iterador, solucionHastaAhora.length, solucionHastaAhora);
         Circuito nuevoVecino = new Circuito(vecino,calcularCostoDePermutarParNro(iterador,grafo,elPrimero,vecino));
         vecinos.add(nuevoVecino);//agrego al vecino
-        System.out.println("costo del vecino " + nuevoVecino.costo);
 
     }
     Collections.sort(vecinos);
