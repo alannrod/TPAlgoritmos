@@ -4,7 +4,7 @@ import entrada.XMLaccessing;
 
 public class GrafoMatriz {
     float[][] adyacentes;
-    private final int infinito = 9999999;//un valor muy alto
+
     public GrafoMatriz(int dimension) {
         this.adyacentes=new float[dimension][dimension];
         this.ponerValorAltoAristaCiclica();
@@ -30,7 +30,9 @@ public class GrafoMatriz {
 
     private void ponerValorAltoAristaCiclica() {
          for (int i= 0; i<this.adyacentes.length;i++){
-             this.adyacentes[i][i]= this.infinito;
+             //un valor muy alto
+             int infinito = 9999999;
+             this.adyacentes[i][i]= infinito;
          }
     }
 
@@ -63,4 +65,5 @@ public class GrafoMatriz {
 
         return resultado;
     }
+
 }

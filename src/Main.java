@@ -9,6 +9,7 @@ import salida.ArchivoSalida;
 
 import java.io.File;
 import java.util.*;
+import java.util.List;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -20,13 +21,13 @@ public class Main {
         //creo un grafo completo de 4 nodos de ejemplo, solo para probar la funcionalidad de los recorridos implementados
         GrafoMatriz otroGrafo = crearGrafoDeEjemplo();
         //1. Proponer un algoritmo goloso para el problema del viajante de comercio.
-        int [] camino = recorridoViajanteDeComercio(otroGrafo);
-        imprimirArreglo (camino);
+        int[] camino = recorridoViajanteDeComercio(otroGrafo);
+        imprimirArreglo(camino);
 
         //-------------------------------------------------------
         //2. Aleatorizar el algoritmo anterior.
         System.out.println("ahora aleatorio");
-       int []camino2 = recorridoViajanteDeComercioAleatorio(otroGrafo);
+        int[] camino2 = recorridoViajanteDeComercioAleatorio(otroGrafo);
         imprimirArreglo(camino2);
 
         //----------------------------------------------------------
@@ -45,7 +46,7 @@ public class Main {
         //"jugando" un poco con el xml para agarrarle la mano
         System.out.println("accediendo a los datos xml");
         XMLaccessing archivoDeEntrada = new XMLaccessing();
-        String [] resultado1 = archivoDeEntrada.adyacentesDe("1");
+        String[] resultado1 = archivoDeEntrada.adyacentesDe("1");
         String[] resultado2 = archivoDeEntrada.pesosDe("1");
         System.out.println("adyacentes del nodo '1'");
         imprimirArreglo(resultado1);
@@ -64,18 +65,19 @@ public class Main {
          */
         System.out.println("algoritmo GRASP");
         System.out.println("Archivo 'burma14'");
-        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml","outputBurma.txt");
+        algoritmoGRASPconArchivoDeEntradaYDeSalida("burma14.xml", "outputBurma.txt");
         System.out.println("Archivo 'brazil158'");
-        algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml","outputBrazil.txt");
+        algoritmoGRASPconArchivoDeEntradaYDeSalida("brazil58.xml", "outputBrazil.txt");
         System.out.println("Archivo 'gr137'");
-        algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml","outputGr137.txt");
+        algoritmoGRASPconArchivoDeEntradaYDeSalida("gr137.xml", "outputGr137.txt");
 
         //---------------------------------------------------------
         /*6. Presentar un grafico de scoring contra la cantidad de iteraciones para baterías de distintas instancias, que permita
         decidir una cantidad de iteraciones que ayude a encontrar un valor cercano al óptimo sin desperdiciar tiempo de
         cómputo.
         * */
-       // presentarElGrafico();
+       presentarElGrafico();
+
 
     }
 
@@ -87,14 +89,16 @@ public class Main {
         GrafoMatriz grafo2 = new GrafoMatriz(archivoDeEntrada2);
         GrafoMatriz grafo3 = new GrafoMatriz(archivoDeEntrada3);
 
-        DefaultCategoryDataset datos = new DefaultCategoryDataset();
-        float dato1 = recorrerElGrafo(grafo1,recorridoViajanteDeComercio(grafo1));
-        float dato2 = recorrerElGrafo(grafo2,recorridoViajanteDeComercio(grafo2));
-        float dato3 = recorrerElGrafo(grafo3,recorridoViajanteDeComercio(grafo3));
-        datos.addValue(dato1,"Grafica GRASP", "burma14");
-        datos.addValue(dato2,"Grafica GRASP", "brazil58");
-        datos.addValue(dato3,"Grafica GRASP", "gr137");
-        JFreeChart grafico = ChartFactory.createLineChart("Grafica GRASP","iteraciones","datos",datos);
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        llenarConDatos(dataset,recorridoViajanteDeComercio(grafo1),"Burma14");
+
+       llenarConDatos(dataset,recorridoViajanteDeComercio(grafo2),"Brazil58");
+
+       llenarConDatos(dataset,recorridoViajanteDeComercio(grafo3),"GR 137");
+
+        JFreeChart grafico = ChartFactory.createLineChart("Grafica GRASP", "nodos", "valores", dataset);
         // Creación del panel con el gráfico
         ChartPanel panel = new ChartPanel(grafico);
 
@@ -111,20 +115,32 @@ public class Main {
 
     }
 
+    private static void llenarConDatos(DefaultCategoryDataset dataset, int[] recorrido, String nombre) {
+
+        for (int i=1;i<recorrido.length;i++){
+            dataset.setValue(recorrido[i],nombre,String.valueOf(i));
+        }
+
+    }
+
+
     private static void imprimirArreglo(int[] arreglo) {
         System.out.println("se tiene el siguiente arreglo");
-        for (int posicion :arreglo){
-            System.out.print(" "+ posicion + ";");
+        for (int posicion : arreglo) {
+            System.out.print(" " + posicion + ";");
         }
         System.out.println(" ");
     }
-    private static void imprimirArreglo(String [] arreglo) {
+
+    private static void imprimirArreglo(String[] arreglo) {
         System.out.println("se tiene el siguiente arreglo");
-        for (String palabra : arreglo){
-            System.out.print( palabra + ";");
+        for (String palabra : arreglo) {
+            System.out.print(palabra + ";");
         }
         System.out.println(" ");
     }
+
+
 
     public static int[] recorridoViajanteDeComercio(GrafoMatriz grafo) {
         int nodoActual = 0;//O (1)
@@ -281,7 +297,7 @@ public static int[] busquedaLocal2 ( GrafoMatriz grafo) {
             elMejorHastaAhora = hayOtroMejor;
             miSalida.escribirEnElArchivo("Con busqueda local se presento esta nueva solucion: "+ Arrays.toString(elMejorHastaAhora.camino));
             miSalida.escribirEnElArchivo("y el costo de recorrer es: " + elMejorHastaAhora.costo);
-            otroCamino = busquedaLocal2(miGrafo);
+            //otroCamino = busquedaLocal2(miGrafo);
             //hayOtroMejor = new Circuito(otroCamino,recorrerElGrafo(miGrafo,otroCamino));
         }
         miSalida.cerrarArchivo();
