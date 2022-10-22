@@ -1,5 +1,5 @@
 Algoritmo GRASP aplicado al archivo brazil58.xml
 obtuvimos la siguiente solucion usando camino Hamiltoneano: [1, 23, 3, 12, 24, 5, 17, 11, 10, 14, 47, 8, 35, 19, 56, 21, 51, 52, 37, 29, 27, 26, 55, 16, 2, 6, 43, 39, 33, 49, 45, 41, 28, 48, 57, 44, 18, 25, 40, 53, 13, 58, 30, 20, 50, 9, 4, 22, 36, 34, 54, 15, 38, 7, 42, 31, 46, 32]
 cuyo costo de recorrer es: 196.70001
-Con busqueda local se presento esta nueva solucion: [1, 23, 3, 12, 24, 5, 17, 11, 10, 14, 47, 8, 35, 19, 56, 21, 51, 52, 37, 29, 27, 26, 55, 16, 2, 6, 43, 39, 33, 49, 45, 41, 28, 48, 57, 44, 18, 25, 40, 53, 13, 58, 30, 20, 50, 9, 4, 22, 36, 34, 54, 15, 38, 42, 7, 31, 46, 32]
-y el costo de recorrer es: 188.1
+Con busqueda local se presento esta nueva solucion: [1, 23, 3, 12, 24, 5, 17, 11, 10, 14, 47, 8, 35, 19, 56, 21, 52, 51, 37, 29, 27, 26, 55, 16, 2, 6, 43, 33, 39, 49, 45, 41, 28, 48, 44, 57, 18, 25, 40, 53, 13, 58, 30, 20, 50, 9, 4, 22, 36, 34, 54, 15, 38, 42, 7, 31, 46, 32]
+y el costo de recorrer es: 166.00003

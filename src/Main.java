@@ -39,7 +39,7 @@ public class Main {
         //------------------------------------------------------------
         //4. Variar parámetros y la estrategia del algoritmo de búsqueda local que optimicen el funcionamiento del mismo.
         System.out.println("busqueda Local 2");
-        int[] camino4 = busquedaLocal2(otroGrafo);
+        int[] camino4 = busquedaLocalOptimizada(otroGrafo,camino3,2);
         imprimirArreglo(camino4);
 
         //--------------------------------------------------------------
@@ -92,11 +92,11 @@ public class Main {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        llenarConDatos(dataset,recorridoViajanteDeComercio(grafo1),"Burma14");
+        llenarConDatos(dataset,busquedaLocalOptimizada(grafo1,recorridoViajanteDeComercio(grafo1),4),"burma");
 
-       llenarConDatos(dataset,recorridoViajanteDeComercio(grafo2),"Brazil58");
+       llenarConDatos(dataset,busquedaLocalOptimizada(grafo2,recorridoViajanteDeComercio(grafo2),4),"Brazil58");
 
-       llenarConDatos(dataset,recorridoViajanteDeComercio(grafo3),"GR 137");
+       llenarConDatos(dataset,busquedaLocalOptimizada(grafo3,recorridoViajanteDeComercio(grafo3),4),"GR 137");
 
         JFreeChart grafico = ChartFactory.createLineChart("Grafica GRASP", "nodos", "valores", dataset);
         // Creación del panel con el gráfico
@@ -237,8 +237,8 @@ public static int[] busquedaLocal ( GrafoMatriz grafo) {
 }
 
 
-public static int[] busquedaLocal2 ( GrafoMatriz grafo) {
-    int[] solucionHastaAhora = recorridoViajanteDeComercio(grafo);
+public static int[] busquedaLocalOptimizada(GrafoMatriz grafo, int[] solucionHastaAhora, int iteracionesMax) {
+    //int[] solucionHastaAhora =
     Circuito elPrimero = new Circuito(solucionHastaAhora.clone(), recorrerElGrafo(grafo,solucionHastaAhora));
 
     List<Circuito> vecinos = new ArrayList<>();
@@ -250,8 +250,13 @@ public static int[] busquedaLocal2 ( GrafoMatriz grafo) {
 
     }
     Collections.sort(vecinos);
+    int[] laMejorSolucion = vecinos.get(1).camino;
+    if ((iteracionesMax-1)>0){
+        laMejorSolucion = busquedaLocalOptimizada(grafo,vecinos.get(1).camino,iteracionesMax-1);
 
-    return vecinos.get(1).camino;
+    }
+
+    return laMejorSolucion;
 }
 
     private static float calcularCostoDePermutarParNro(int iterador, GrafoMatriz grafo, Circuito solucionHastaAhora, int[] vecino) {
@@ -291,7 +296,7 @@ public static int[] busquedaLocal2 ( GrafoMatriz grafo) {
         miSalida.escribirEnElArchivo("obtuvimos la siguiente solucion usando camino Hamiltoneano: "+Arrays.toString(camino));
         Circuito elMejorHastaAhora = new Circuito(camino,recorrerElGrafo(miGrafo,camino));
         miSalida.escribirEnElArchivo("cuyo costo de recorrer es: "+ elMejorHastaAhora.costo);
-        int [] otroCamino = busquedaLocal2(miGrafo);
+        int [] otroCamino = busquedaLocalOptimizada(miGrafo,camino,4);
         Circuito hayOtroMejor = new Circuito(otroCamino,recorrerElGrafo(miGrafo,otroCamino));
         while (hayOtroMejor != elMejorHastaAhora){
             elMejorHastaAhora = hayOtroMejor;
