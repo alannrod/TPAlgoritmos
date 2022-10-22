@@ -130,7 +130,7 @@ public static int[] recorridoViajanteDeComercio(GrafoMatriz grafo) {
 	//int posicionDelMinimo=0;//O(1)
 	int tamGrafo = grafo.numeroDeVertices();//O(1)
 	int porcentajeDelGrafo = (tamGrafo *10)/100; //O(1)
-	if (porcentajeDelGrafo<=0) porcentajeDelGrafo=1;//O(1) // para arreglos muy pequeños que no pueda sacar cierto porcentaje
+	if (porcentajeDelGrafo<=0) porcentajeDelGrafo=1;//O(1) // para arreglos muy pequenos que no pueda sacar cierto porcentaje
 		int [] caminoRecorrido = new int[tamGrafo];//O(1)
 		boolean [] yaLoRecorri = new boolean[tamGrafo];//O(1)
 	inicializarEnFalso(yaLoRecorri);//O(n)
@@ -234,6 +234,40 @@ encotrar la mejor solucion involucra:
   
   
 \end{itemize}
+\section{busqueda local optimizada}
+\begin{itemize}
+	\item se le mando al algoritmo tres parametros:
+	\begin{enumerate}
+		\item el grafo
+		\item el mejor camino encontrado hasta el momento
+		\item y la cantidad maxima que el algoritmo puede llamarse a si mismo buscando la mejor solucion
+	\end{enumerate}
+	\item el algoritmo busca entre los vecinos del mejor camimo mandado si encuentra uno optimo
+	\item si aun quedan iteraciones para realizar se llama recursivamente cambiando los ultimos dos parametros por el vecino optimo y la cantidad de iteraciones menos una		
+\end{itemize}
+
+\section{Algoritmo GRASP}
+\begin{itemize}
+	\item el algoritmo recibe por parametros el grafo, el nombre de archivo de entrada y el nombre de archivo de salida
+	\item se crea el grafo correspondiente al archivo de entrada recibido
+	\item se crea un nuevo archivo de texto con el nombre de archivo de salida dado
+	\item recorremos hamiltoneanamente para obtener una posible solucion
+	\item imprimimos en el archivo de salida que hemos encontrado una posible solucion
+	\item teniendo un grafo y una posible solucion puedo llamar a la busqueda local optimizada mandandoselos por parametro
+	\item imprimimos en el archivo que la solucion se puede optimizar con el recorrido encontrado por la busqueda local 
+	\item cerramos el archivo de texto
+\end{itemize}
+
+\section{grafico de scoring}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics{grafico.jpg}
+		\caption{Grafica GRASP}
+		\label{fig:}
+	\end{center}
+\end{figure}
+
 
 \section{Inconvenientes con el tp}
 \begin{enumerate}
