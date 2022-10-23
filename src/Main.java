@@ -16,6 +16,8 @@ import org.jfree.chart.JFreeChart;
 
 import javax.swing.*;
 
+
+
 public class Main {
     public static void main(String[] args) {
         //creo un grafo completo de 4 nodos de ejemplo, solo para probar la funcionalidad de los recorridos implementados
@@ -76,12 +78,12 @@ public class Main {
         decidir una cantidad de iteraciones que ayude a encontrar un valor cercano al óptimo sin desperdiciar tiempo de
         cómputo.
         * */
-       presentarElGrafico();
+       //presentarElGrafico();
 
 
     }
 
-    private static void presentarElGrafico() {
+    private static void presentarElGrafico()  {
         XMLaccessing archivoDeEntrada1 = new XMLaccessing("burma14.xml");
         XMLaccessing archivoDeEntrada2 = new XMLaccessing("brazil58.xml");
         XMLaccessing archivoDeEntrada3 = new XMLaccessing("gr137.xml");
@@ -92,11 +94,11 @@ public class Main {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        llenarConDatos(dataset,busquedaLocalOptimizada(grafo1,recorridoViajanteDeComercio(grafo1),4),"burma");
+        llenarConDatos(dataset, busquedaLocalOptimizada(grafo1, recorridoViajanteDeComercio(grafo1), 4), "burma");
 
-       llenarConDatos(dataset,busquedaLocalOptimizada(grafo2,recorridoViajanteDeComercio(grafo2),4),"Brazil58");
+        llenarConDatos(dataset, busquedaLocalOptimizada(grafo2, recorridoViajanteDeComercio(grafo2), 4), "Brazil58");
 
-       llenarConDatos(dataset,busquedaLocalOptimizada(grafo3,recorridoViajanteDeComercio(grafo3),4),"GR 137");
+        llenarConDatos(dataset, busquedaLocalOptimizada(grafo3, recorridoViajanteDeComercio(grafo3), 4), "GR 137");
 
         JFreeChart grafico = ChartFactory.createLineChart("Grafica GRASP", "nodos", "valores", dataset);
         // Creación del panel con el gráfico
@@ -113,7 +115,53 @@ public class Main {
         ventana.setVisible(true);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //--------------------------------------------------------
+        /*DefaultXYDataset dataset1 = new DefaultXYDataset();
+        dataset1.addSeries("firefox", datosejesxy(archivoDeEntrada1));
+        dataset1.addSeries("ie", new double[][]{{2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017}, {67.7, 63.1, 60.2, 50.6, 41.1, 31.8, 27.6, 20.4, 17.3, 12.3, 8.1}});
+        dataset1.addSeries("chrome", new double[][]{{2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017}, {0.2, 6.4, 14.6, 25.3, 30.1, 34.3, 43.2, 47.3, 58.4}});
+
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+        renderer.setSeriesPaint(0, Color.ORANGE);
+        renderer.setSeriesPaint(1, Color.BLUE);
+        renderer.setSeriesPaint(2, Color.GREEN);
+        renderer.setSeriesStroke(0, new BasicStroke(2));
+        renderer.setSeriesStroke(1, new BasicStroke(2));
+        renderer.setSeriesStroke(2, new BasicStroke(2));
+
+        JFreeChart chart = ChartFactory.createXYLineChart("Browser Quota", "Year", "Quota", dataset);
+        chart.getXYPlot().getRangeAxis().setRange(0, 100);
+        ((NumberAxis) chart.getXYPlot().getRangeAxis()).setNumberFormatOverride(new DecimalFormat("#'%'"));
+        chart.getXYPlot().setRenderer(renderer);
+
+        BufferedImage image = chart.createBufferedImage(600, 400);
+        ImageIO.write(image, "png", new File("xy-chart.png"));
+
+         */
+
+
     }
+
+    /*
+
+    private static double[][] datosejesxy(XMLaccessing archivoDeEntrada) {
+        Map<String,String[]> aristas = archivoDeEntrada.getNodoAristas();
+        double[] valoresX = pasarADouble((String[]) aristas.keySet().toArray());
+        GrafoMatriz grafo = new GrafoMatriz(archivoDeEntrada);
+        //double[] valoresY =
+        return new double[][]{{2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017}, {25, 29.1, 32.1, 32.9, 31.9, 25.5, 20.1, 18.4, 15.3, 11.4, 9.5}};
+    }
+
+
+    private static double[] pasarADouble(String[] values) {
+        double[] resultado = new double[values.length];
+        for (int i=0;i<values.length;i++){
+            resultado[i]= Double.valueOf(values[i]);
+        }
+        return resultado;
+    }
+
+     */
 
     private static void llenarConDatos(DefaultCategoryDataset dataset, int[] recorrido, String nombre) {
 
@@ -251,7 +299,7 @@ public static int[] busquedaLocalOptimizada(GrafoMatriz grafo, int[] solucionHas
     }
     Collections.sort(vecinos);
     int[] laMejorSolucion = vecinos.get(1).camino;
-    if ((iteracionesMax-1)>0){
+    if ((iteracionesMax-1)>0 && laMejorSolucion != solucionHastaAhora){ //no es necesario que haga todas las iteraciones
         laMejorSolucion = busquedaLocalOptimizada(grafo,vecinos.get(1).camino,iteracionesMax-1);
 
     }
@@ -296,14 +344,14 @@ public static int[] busquedaLocalOptimizada(GrafoMatriz grafo, int[] solucionHas
         miSalida.escribirEnElArchivo("obtuvimos la siguiente solucion usando camino Hamiltoneano: "+Arrays.toString(camino));
         Circuito elMejorHastaAhora = new Circuito(camino,recorrerElGrafo(miGrafo,camino));
         miSalida.escribirEnElArchivo("cuyo costo de recorrer es: "+ elMejorHastaAhora.costo);
-        int [] otroCamino = busquedaLocalOptimizada(miGrafo,camino,4);
+        int [] otroCamino = busquedaLocal(miGrafo);
         Circuito hayOtroMejor = new Circuito(otroCamino,recorrerElGrafo(miGrafo,otroCamino));
-        while (hayOtroMejor != elMejorHastaAhora){
+        while (hayOtroMejor.costo < elMejorHastaAhora.costo){
             elMejorHastaAhora = hayOtroMejor;
             miSalida.escribirEnElArchivo("Con busqueda local se presento esta nueva solucion: "+ Arrays.toString(elMejorHastaAhora.camino));
             miSalida.escribirEnElArchivo("y el costo de recorrer es: " + elMejorHastaAhora.costo);
-            //otroCamino = busquedaLocal2(miGrafo);
-            //hayOtroMejor = new Circuito(otroCamino,recorrerElGrafo(miGrafo,otroCamino));
+            otroCamino = busquedaLocalOptimizada(miGrafo,otroCamino,miGrafo.numeroDeVertices()/2);
+            hayOtroMejor = new Circuito(otroCamino,recorrerElGrafo(miGrafo,otroCamino));
         }
         miSalida.cerrarArchivo();
     }
