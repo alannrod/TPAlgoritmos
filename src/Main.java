@@ -4,22 +4,30 @@ import estructuras.Circuito;
 import estructuras.GrafoMatriz;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.DefaultXYDataset;
 import salida.ArchivoSalida;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //creo un grafo completo de 4 nodos de ejemplo, solo para probar la funcionalidad de los recorridos implementados
         GrafoMatriz otroGrafo = crearGrafoDeEjemplo();
         //1. Proponer un algoritmo goloso para el problema del viajante de comercio.
@@ -78,48 +86,22 @@ public class Main {
         decidir una cantidad de iteraciones que ayude a encontrar un valor cercano al óptimo sin desperdiciar tiempo de
         cómputo.
         * */
-       //presentarElGrafico();
+       presentarElGrafico();
 
 
     }
 
-    private static void presentarElGrafico()  {
+    private static void presentarElGrafico() throws IOException {
         XMLaccessing archivoDeEntrada1 = new XMLaccessing("burma14.xml");
         XMLaccessing archivoDeEntrada2 = new XMLaccessing("brazil58.xml");
         XMLaccessing archivoDeEntrada3 = new XMLaccessing("gr137.xml");
-        GrafoMatriz grafo1 = new GrafoMatriz(archivoDeEntrada1);
-        GrafoMatriz grafo2 = new GrafoMatriz(archivoDeEntrada2);
-        GrafoMatriz grafo3 = new GrafoMatriz(archivoDeEntrada3);
-
-
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        llenarConDatos(dataset, busquedaLocalOptimizada(grafo1, recorridoViajanteDeComercio(grafo1), 4), "burma");
-
-        llenarConDatos(dataset, busquedaLocalOptimizada(grafo2, recorridoViajanteDeComercio(grafo2), 4), "Brazil58");
-
-        llenarConDatos(dataset, busquedaLocalOptimizada(grafo3, recorridoViajanteDeComercio(grafo3), 4), "GR 137");
-
-        JFreeChart grafico = ChartFactory.createLineChart("Grafica GRASP", "nodos", "valores", dataset);
-        // Creación del panel con el gráfico
-        ChartPanel panel = new ChartPanel(grafico);
-
-        JFrame ventana = new JFrame("El grafico");
-        try {
-            ChartUtilities.saveChartAsJPEG(new File("grafico.jpg"), grafico, 500, 300);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ventana.getContentPane().add(panel);
-        ventana.pack();
-        ventana.setVisible(true);
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //--------------------------------------------------------
-        /*DefaultXYDataset dataset1 = new DefaultXYDataset();
-        dataset1.addSeries("firefox", datosejesxy(archivoDeEntrada1));
-        dataset1.addSeries("ie", new double[][]{{2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017}, {67.7, 63.1, 60.2, 50.6, 41.1, 31.8, 27.6, 20.4, 17.3, 12.3, 8.1}});
-        dataset1.addSeries("chrome", new double[][]{{2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017}, {0.2, 6.4, 14.6, 25.3, 30.1, 34.3, 43.2, 47.3, 58.4}});
+
+        DefaultXYDataset dataset1 = new DefaultXYDataset();
+        dataset1.addSeries("Burma", datosejesxy(archivoDeEntrada1));
+        dataset1.addSeries("Brazil", datosejesxy(archivoDeEntrada2));
+        dataset1.addSeries("GR", datosejesxy(archivoDeEntrada3));
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
         renderer.setSeriesPaint(0, Color.ORANGE);
@@ -129,39 +111,42 @@ public class Main {
         renderer.setSeriesStroke(1, new BasicStroke(2));
         renderer.setSeriesStroke(2, new BasicStroke(2));
 
-        JFreeChart chart = ChartFactory.createXYLineChart("Browser Quota", "Year", "Quota", dataset);
-        chart.getXYPlot().getRangeAxis().setRange(0, 100);
-        ((NumberAxis) chart.getXYPlot().getRangeAxis()).setNumberFormatOverride(new DecimalFormat("#'%'"));
+        JFreeChart chart = ChartFactory.createXYLineChart("GRASP", "iteraciones", "costo de recorrer", dataset1);
+        //chart.getXYPlot().getRangeAxis().setRange(0, 100);
+        //((NumberAxis) chart.getXYPlot().getRangeAxis()).setNumberFormatOverride(new DecimalFormat("#'%'"));
         chart.getXYPlot().setRenderer(renderer);
 
         BufferedImage image = chart.createBufferedImage(600, 400);
-        ImageIO.write(image, "png", new File("xy-chart.png"));
+        ImageIO.write(image, "png", new File("grafico.jpg"));
 
-         */
+
 
 
     }
 
-    /*
+
 
     private static double[][] datosejesxy(XMLaccessing archivoDeEntrada) {
         Map<String,String[]> aristas = archivoDeEntrada.getNodoAristas();
-        double[] valoresX = pasarADouble((String[]) aristas.keySet().toArray());
+        double[] valoresX = {4,8,12,16,20,24,28,32,36,40};//iteraciones
         GrafoMatriz grafo = new GrafoMatriz(archivoDeEntrada);
-        //double[] valoresY =
-        return new double[][]{{2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017}, {25, 29.1, 32.1, 32.9, 31.9, 25.5, 20.1, 18.4, 15.3, 11.4, 9.5}};
-    }
+        double[] valoresY =new double[10];//costo
+        for (int i=0;i<10;i++){
+            valoresY[i] =Double.parseDouble(Float.toString(recorrerElGrafo(grafo,busquedaLocalOptimizada(grafo,recorridoViajanteDeComercio(grafo), (int) valoresX[i]))));
+        }
+        return new double [][]{valoresX,valoresY};
+        }
 
 
     private static double[] pasarADouble(String[] values) {
         double[] resultado = new double[values.length];
         for (int i=0;i<values.length;i++){
-            resultado[i]= Double.valueOf(values[i]);
+            resultado[i]= Double.parseDouble(values[i]);
         }
         return resultado;
     }
 
-     */
+
 
     private static void llenarConDatos(DefaultCategoryDataset dataset, int[] recorrido, String nombre) {
 
@@ -420,6 +405,42 @@ public static int[] busquedaLocalOptimizada(GrafoMatriz grafo, int[] solucionHas
         resultante.nuevoArco("4","2",4);
         resultante.nuevoArco("4","3",15);
         return resultante;
+    }
+
+    private static void presentarElGraficoversionanterior(){
+        XMLaccessing archivoDeEntrada1 = new XMLaccessing("burma14.xml");
+        XMLaccessing archivoDeEntrada2 = new XMLaccessing("brazil58.xml");
+        XMLaccessing archivoDeEntrada3 = new XMLaccessing("gr137.xml");
+        GrafoMatriz grafo1 = new GrafoMatriz(archivoDeEntrada1);
+        GrafoMatriz grafo2 = new GrafoMatriz(archivoDeEntrada2);
+        GrafoMatriz grafo3 = new GrafoMatriz(archivoDeEntrada3);
+
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        llenarConDatos(dataset, busquedaLocalOptimizada(grafo1, recorridoViajanteDeComercio(grafo1), 4), "burma");
+
+        llenarConDatos(dataset, busquedaLocalOptimizada(grafo2, recorridoViajanteDeComercio(grafo2), 4), "Brazil58");
+
+        llenarConDatos(dataset, busquedaLocalOptimizada(grafo3, recorridoViajanteDeComercio(grafo3), 4), "GR 137");
+
+        JFreeChart grafico = ChartFactory.createLineChart("Grafica GRASP", "nodos", "valores", dataset);
+        // Creación del panel con el gráfico
+        ChartPanel panel = new ChartPanel(grafico);
+
+        JFrame ventana = new JFrame("El grafico");
+        try {
+            ChartUtilities.saveChartAsJPEG(new File("grafico.jpg"), grafico, 500, 300);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ventana.getContentPane().add(panel);
+        ventana.pack();
+        ventana.setVisible(true);
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+
     }
 
 

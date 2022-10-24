@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="busqueda local optimizada con maximo la cant de nodos div 2 y grasp iterativo">
-      <change beforePath="$PROJECT_DIR$/outputBrazil.txt" beforeDir="false" afterPath="$PROJECT_DIR$/outputBrazil.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputBurma.txt" beforeDir="false" afterPath="$PROJECT_DIR$/outputBurma.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputGr137.txt" beforeDir="false" afterPath="$PROJECT_DIR$/outputGr137.txt" afterDir="false" />
+    <list default="true" id="477c5d6d-9793-4b74-9ed4-e1132b99bff1" name="Changes" comment="grafico por iteraciones y costos">
+      <change afterPath="$PROJECT_DIR$/grafico.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -309,7 +309,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666560972132</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="busqueda local optimizada con maximo la cant de nodos div 2 y grasp iterativo">
+      <created>1666560990563</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1666560990563</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -324,7 +331,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="xml ya leido" />
     <MESSAGE value="separando las aristas y los pesos para crear un grafo a partir de un xml" />
     <MESSAGE value="cambiando la matriz de adayacencia por float asi guardo el peso del xml, se puede crear un GrafoMatriz a partir de un archivo xml" />
     <MESSAGE value="generando archivo de texto, mejorando busqueda local" />
@@ -349,7 +355,8 @@
     <MESSAGE value="busqueda local optimizada" />
     <MESSAGE value="documentacion al respecto" />
     <MESSAGE value="busqueda local optimizada con maximo la cant de nodos div 2 y grasp iterativo" />
-    <option name="LAST_COMMIT_MESSAGE" value="busqueda local optimizada con maximo la cant de nodos div 2 y grasp iterativo" />
+    <MESSAGE value="grafico por iteraciones y costos" />
+    <option name="LAST_COMMIT_MESSAGE" value="grafico por iteraciones y costos" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
